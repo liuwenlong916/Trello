@@ -3,10 +3,12 @@ import { Controller, Get, Params, Post, Body, Header } from 'koa-ts-controllers'
 @Controller('/hello') //类装饰器
 class HelloController {
   @Get('/world')
-  async sayWorld() {
+  //触发统一错误处理
+  async sayWorld(a: any) {
+    console.log(a.b)
     return 'Hello world'
   }
-  @Get('/user/:id') //方法装饰器
+  @Get('/user/:id(\\d+)') //方法装饰器
   async user(
     @Params('id') //形参装饰器
     id: number,
