@@ -22,6 +22,15 @@ import KoaBodyParer from 'koa-bodyparser'
         statusCode: status,
         error: 'Internal Server error',
         message: 'An internal server error occurred',
+        errorDetails: '',
+      }
+      //err分类
+      console.log(err)
+      if (err.output) {
+        ;(status = err.output.statusCode), (body = { ...err.output.payload })
+        if (err.data) {
+          body.errorDetails = err.data
+        }
       }
       ctx.body = body
       ctx.status = status
