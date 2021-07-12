@@ -7,17 +7,19 @@ import {
   Header,
   Query,
 } from 'koa-ts-controllers'
-import { IsNumberString } from 'class-validator'
+// import { IsNumberString } from 'class-validator'
 
-class GetUsersQuery {
-  @IsNumberString(
-    {},
-    {
-      message: 'page必须为数字', //自定义错误提示信息
-    },
-  ) //验证是否为数字字符串
-  page: number
-}
+// class GetUsersQuery {
+//   @IsNumberString(
+//     {},
+//     {
+//       message: 'page必须为数字', //自定义错误提示信息
+//     },
+//   ) //验证是否为数字字符串
+//   page: number
+// }
+import GetUsersQuery from '../validators/getUserQuery'
+import Boom from '@hapi/boom' //验证提示信息
 
 @Controller('/hello') //类装饰器
 class HelloController {
@@ -61,6 +63,12 @@ class HelloController {
     // },
   ) {
     console.log(`page:${query.page}`)
+
+    //业务逻辑错误，用户不存在，
+    if (true) {
+      //用户已经注册
+      throw Boom.notFound('注册失败', '用户已经被注册')
+    }
     return 'query验证'
   }
 }
