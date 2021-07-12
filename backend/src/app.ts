@@ -4,6 +4,7 @@ import { bootstrapControllers, Params } from 'koa-ts-controllers'
 import KoaRouter from 'koa-router'
 import path from 'path'
 import KoaBodyParer from 'koa-bodyparser'
+import Boom from '@hapi/boom'
 ;(async () => {
   const app = new Koa()
 
@@ -37,6 +38,13 @@ import KoaBodyParer from 'koa-bodyparser'
     },
   })
 
+  //失败？
+  // router.all('*', async ctx => {
+  //   throw Boom.notFound()
+  // })
+  // router.all('/test', ctx => {
+  //   ctx.body = 'all'
+  // })
   app.use(KoaBodyParer()) //解析body
   app.use(router.routes())
   console.log(router.routes())
