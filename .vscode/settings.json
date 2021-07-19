@@ -3,7 +3,12 @@
     "packages": [
       {
         "files": ["**/*"],
-        "exclude": ["node_modules/**", ".git/**", "**/node_modules/**"],
+        "exclude": [
+          "node_modules/**",
+          ".git/**",
+          "**/node_modules/**",
+          "trello-md课件/**"
+        ],
         "deployOnSave": false
       }
     ],
