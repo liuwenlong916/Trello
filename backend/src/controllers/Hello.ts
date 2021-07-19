@@ -6,20 +6,13 @@ import {
   Body,
   Header,
   Query,
+  Ctx,
 } from 'koa-ts-controllers'
-// import { IsNumberString } from 'class-validator'
 
-// class GetUsersQuery {
-//   @IsNumberString(
-//     {},
-//     {
-//       message: 'page必须为数字', //自定义错误提示信息
-//     },
-//   ) //验证是否为数字字符串
-//   page: number
-// }
-import GetUsersQuery from '../validators/getUserQuery'
+// import GetUsersQuery from '../validators/getUserQuery'
+import { GetUsersQuery, PostUserBody } from '../validators/index'
 import Boom from '@hapi/boom' //验证提示信息
+import { Context } from 'koa'
 
 @Controller('/hello') //类装饰器
 class HelloController {
@@ -40,18 +33,22 @@ class HelloController {
   //body 需要安装 koa-bodyparser
   //header
 
-  @Post('user')
+  @Post('/user')
   async postUser(
+    @Ctx() ctx: Context,
     @Body()
-    body: {
-      name: string
-      password: string
-    },
+    body: PostUserBody,
     @Header()
     h: any,
   ) {
-    console.log(`头信息：${h}`)
-    return `当前提交的body数据是：${JSON.stringify(body)}`
+    // console.log(`头信息：${h}`)
+    // return `当前提交的body数据是：${JSON.stringify(body)}`
+    ctx.status = 201
+    return {
+      id: 1,
+      name: body.name,
+      createAt: new Date(),
+    }
   }
 
   //query/ body验证
@@ -65,10 +62,10 @@ class HelloController {
     console.log(`page:${query.page}`)
 
     //业务逻辑错误，用户不存在，
-    if (true) {
-      //用户已经注册
-      throw Boom.notFound('注册失败', '用户已经被注册')
-    }
+    // if (true) {
+    //   //用户已经注册
+    //   throw Boom.notFound('注册失败', '用户已经被注册')
+    // }
     return 'query验证'
   }
 }
