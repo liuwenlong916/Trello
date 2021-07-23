@@ -14,7 +14,7 @@
     "db:migrate:undo:all": "sequelize db:migrate:undo:all",
     "db:seed:all": "sequelize db:seed:all",
     "db:seed:undo:all": "sequelize db:seed:undo:all",
-    "db:init": "npm run db:create && npm run db:migrate && npm run db:send:all",
+    "db:init": "npm run db:create && npm run db:migrate && npm run db:seed:all",
     "db:redo": "npm run db:drop && npm run db:init"
   },
   "author": "",
@@ -36,6 +36,7 @@
     "koa-bodyparser": "^4.3.0",
     "koa-ts-controllers": "^3.2.2",
     "mysql2": "^2.2.5",
-    "sequelize": "^6.6.5"
+    "sequelize": "^6.6.5",
+    "sequelize-typescript": "^2.1.0"
   }
 }
