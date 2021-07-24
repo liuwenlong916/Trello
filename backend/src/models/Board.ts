@@ -1,10 +1,10 @@
 import { AllowNull, AutoIncrement, Column, CreatedAt, DataType, ForeignKey, Model, PrimaryKey, Table, UpdatedAt } from 'sequelize-typescript'
-import User from "./User"
+import { User } from "./User"
 
 @Table({
   tableName: 'Board'
 })
-export default class Board extends Model<Board> {
+export class Board extends Model<Board> {
 
   @PrimaryKey
   @AutoIncrement

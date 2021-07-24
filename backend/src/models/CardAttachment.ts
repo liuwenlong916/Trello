@@ -9,15 +9,15 @@ import {
   Table,
   UpdatedAt
 } from "sequelize-typescript";
-import User from "./User";
-import BoardListCard from "./BoardListCard";
-import Attachment from "./Attachment";
+import { User } from "./User";
+import { BoardListCard } from "./BoardListCard";
+import { Attachment } from "./Attachment";
 
 
 @Table({
   tableName: 'CardAttachment'
 })
-export default class CardAttachment extends Model<CardAttachment> {
+export class CardAttachment extends Model<CardAttachment> {
 
   @PrimaryKey
   @AutoIncrement

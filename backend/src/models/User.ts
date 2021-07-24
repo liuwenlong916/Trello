@@ -6,7 +6,7 @@ import crypto from 'crypto'
 @Table({
   tableName: 'User'
 })
-export default class User extends Model<User> {
+export class User extends Model<User> {
 
   @PrimaryKey
   @AutoIncrement
@@ -21,9 +21,11 @@ export default class User extends Model<User> {
   name: string
 
   // password: string
+  @Column//不写 生成sql时不会添加该字段
   set password(val: string) {
     let md5 = crypto.createHash('md5')
-    let newPassword = md5.update(val).digest('hex')
+    let newPassword = md5.update(`${val}`).digest('hex')
+    console.log('set', val, newPassword)
     this.setDataValue("password", newPassword)
   }
 

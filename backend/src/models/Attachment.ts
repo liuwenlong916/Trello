@@ -1,10 +1,10 @@
 import { AutoIncrement, Column, CreatedAt, DataType, ForeignKey, Model, PrimaryKey, Table, UpdatedAt } from 'sequelize-typescript'
-import User from './User'
+import { User } from './User'
 
 @Table({
   tableName: 'Attachment'
 })
-export default class Attachment extends Model<Attachment>{
+export class Attachment extends Model<Attachment>{
   @PrimaryKey
   @AutoIncrement
   @Column

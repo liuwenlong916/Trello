@@ -1,11 +1,11 @@
 import { AutoIncrement, Column, CreatedAt, DataType, ForeignKey, Model, PrimaryKey, Table, UpdatedAt } from 'sequelize-typescript'
-import Board from './Board'
-import User from './User'
+import { Board } from './Board'
+import { User } from './User'
 
 @Table({
   tableName: 'BoardList'
 })
-export default class BoardList extends Model<BoardList>{
+export class BoardList extends Model<BoardList>{
 
   @PrimaryKey
   @AutoIncrement

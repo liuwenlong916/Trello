@@ -9,13 +9,13 @@ import {
   Table,
   UpdatedAt
 } from "sequelize-typescript";
-import User from "./User";
-import BoardListCard from "./BoardListCard";
+import { User } from "./User";
+import { BoardListCard } from "./BoardListCard";
 
 @Table({
   tableName: 'comment'
 })
-export default class Comment extends Model<Comment> {
+export class Comment extends Model<Comment> {
 
   @PrimaryKey
   @AutoIncrement
