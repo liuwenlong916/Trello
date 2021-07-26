@@ -4,10 +4,11 @@ import router from './router'
 import store from './store'
 import '@/assets/css/css.css'
 
+import TMessage from '@/components/TMessage/TMessage.js'
+Vue.prototype.$Message = TMessage
 Vue.config.productionTip = false
-
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
 }).$mount('#app')
