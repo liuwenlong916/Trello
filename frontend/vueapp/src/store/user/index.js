@@ -1,4 +1,4 @@
-import { register } from '../../api'
+import { login, register } from '../../api'
 
 export default {
   namespaced: true,
@@ -7,6 +7,9 @@ export default {
   actions: {
     register: ({}, data) => {
       return register(data)
+    },
+    login: ({}, data) => {
+      return login(data)
     },
   },
 }
