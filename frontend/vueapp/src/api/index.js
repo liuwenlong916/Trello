@@ -1,7 +1,22 @@
 import axios from 'axios'
 import TMessage from '../components/TMessage/TMessage.js'
+import store from '@/store'
 
 axios.defaults.baseURL = process.env.VUE_APP_SERVER_API_PATH
+
+axios.interceptors.request.use(configs => {
+  // try{
+  //   let data = JSON.parse(localStorage.getItem('user'))
+  // }catch(e){
+  //   throw e
+  // }
+  const { authorization } = store.state.user.info
+  if (authorization) {
+    configs.headers.authorization = authorization
+  }
+
+  return configs
+})
 
 axios.interceptors.response.use(
   response => {
