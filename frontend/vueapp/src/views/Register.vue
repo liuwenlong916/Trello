@@ -22,7 +22,7 @@
                 type="password"
                 class="form-field"
                 placeholder="输入密码"
-                v-model="user.passowrd"
+                v-model="user.password"
               />
             </label>
           </div>
@@ -39,7 +39,10 @@
           <div>
             <input type="submit" class="btn btn-success" value="注册" />
             <span class="signin-signup-separator">或者</span>
-            <input type="button" class="btn" value="登录" />
+            <!-- <input type="button" class="btn" value="登录" /> -->
+            <router-link :to="{ name: 'Login' }" tag="button" class="btn"
+              >登录</router-link
+            >
           </div>
         </form>
       </div>
@@ -60,12 +63,18 @@ export default {
     }
   },
   methods: {
-    registerSubmit() {
-      // TMessage({
-      //   message: '用户名不能为空',
-      //   duration: 3000,
-      // })
-      this.$Message.error('用户名不能为空')
+    async registerSubmit() {
+      console.log(this.user)
+      if (this.user.name.trim() === '' || this.user.password.trim() === '') {
+        return this.$message.error('用户名和密码不能为空')
+      }
+      if (this.user.password !== this.user.rePassword) {
+        return this.$message.error('两次密码不一致')
+      }
+      try {
+        await this.$store.dispatch('user/register', { ...this.user })
+        this.$router.push({ name: 'Login' })
+      } catch (e) {}
     },
   },
 }

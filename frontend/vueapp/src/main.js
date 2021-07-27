@@ -5,7 +5,7 @@ import store from './store'
 import '@/assets/css/css.css'
 
 import TMessage from '@/components/TMessage/TMessage.js'
-Vue.prototype.$Message = TMessage
+Vue.prototype.$message = TMessage
 Vue.config.productionTip = false
 new Vue({
   router,
