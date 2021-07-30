@@ -21,17 +21,29 @@ export default {
       }
     }, this.duration)
   },
+  props: {
+    message: {
+      type: String,
+      default: '这是默认提示信息',
+    },
+    type: {
+      type: String,
+      default: 'info',
+    },
+    verticalOffset: {
+      type: Number,
+      default: 20,
+    },
+    isShow: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
-      message: '这是默认提示信息',
-      type: 'info',
       center: true,
-      verticalOffset: 20,
-      // offset: 20,
-      isShow: true,
       timer: null,
       duration: 1000,
-      onClose: null,
     }
   },
   computed: {
@@ -44,9 +56,10 @@ export default {
   methods: {
     close() {
       this.isShow = false
-      if (typeof this.onClose === 'function') {
-        this.onClose()
-      }
+      this.onClose && this.onClose()
+      // if (typeof this.onClose === 'function') {
+      //   this.onClose()
+      // }
     },
   },
 }

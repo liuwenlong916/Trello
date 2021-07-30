@@ -1,35 +1,28 @@
 import Vue from 'vue'
 import TMessage from './TMessage.vue'
 
-const TMessageClass = Vue.extend(TMessage)
-
 /**
  * 创建TMessage组件对象
  * 管理TMessage组件对象队列
  * @param {*} data
  */
 let instances = []
-function Message(prop) {
-  prop = prop || {}
-  if (typeof prop === 'string') {
-    prop = {
-      message: prop,
+function Message(data) {
+  data = data || {}
+  if (typeof data === 'string') {
+    data = {
+      message: data,
     }
   }
-
-  let instance = new TMessageClass({
-    propsData: prop,
-    methods: {
-      onClose() {
-        Message.close(this, this.verticalOffset)
-      },
+  const vm = new Vue({
+    render(h) {
+      return h(TMessage, { data })
     },
-  })
-  instance.$mount()
-  document.body.appendChild(instance.$el)
+  }).$mount()
+  document.body.appendChild(vm.$el)
 
   // 记录之前每个弹框的高度 + 20 的偏移量
-  let verticalOffset = prop.verticalOffset || 20
+  let verticalOffset = data.offset || 20
   instances.forEach(item => {
     //
     verticalOffset += item.$el.offsetHeight + 20

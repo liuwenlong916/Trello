@@ -50,7 +50,7 @@ export default {
   methods: {
     async loginSubmit() {
       if (this.user.name.trim() === '' || this.user.password.trim() === '') {
-        this.$message('用户名或密码不能为空')
+        return this.$message('用户名或密码不能为空')
       }
       await this.$store.dispatch('user/login', { ...this.user })
       this.$router.push({ name: 'Home' })
