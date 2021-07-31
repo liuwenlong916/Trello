@@ -14,10 +14,15 @@
       <a href="" class="btn btn-icon">
         <i class="icon icon-add"></i>
       </a>
-      <t-popup>
+      <t-popup :title="username">
         <button class="avatar">
-          <span>Z</span>
+          <span>{{ username[0].toUpperCase() }}</span>
         </button>
+        <t-popup-menu
+          slot="content"
+          :items="menuItems"
+          @commend="execute"
+        ></t-popup-menu>
       </t-popup>
     </div>
   </header>
@@ -25,10 +30,38 @@
 
 <script>
 import TPopup from './TPopup'
+import TPopupMenu from '@/components/TPopupMenu'
+import { mapState } from 'vuex'
 export default {
   name: 'THeader',
   components: {
     TPopup,
+    TPopupMenu,
+  },
+  data() {
+    return {
+      menuItems: [
+        { name: '登出', command: 'logout' },
+        { name: '登出2', command: 'logout2', separator: true },
+        { name: '登出1', command: 'logout1' },
+      ],
+    }
+  },
+  computed: {
+    ...mapState('user', {
+      username: state => state.info.name,
+    }),
+  },
+  methods: {
+    execute(command) {
+      switch (command) {
+        case 'logout':
+          this.logout()
+          break
+        default:
+          break
+      }
+    },
   },
 }
 </script>

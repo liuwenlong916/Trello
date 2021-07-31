@@ -13,21 +13,7 @@
         </div>
 
         <div class="popup-content">
-          <ul class="popup-menu-list">
-            <li><span>添加卡…</span></li>
-            <li><span>复制列表…</span></li>
-            <li><span>移动列表</span></li>
-            <li><span>关注 </span></li>
-          </ul>
-          <hr />
-          <ul class="popup-menu-list">
-            <li><span>移动此列表中的所有卡片…</span></li>
-            <li><span>归档这个列表中的所有卡…</span></li>
-          </ul>
-          <hr />
-          <ul class="popup-menu-list">
-            <li><span>将此列表进行归档</span></li>
-          </ul>
+          <slot name="content"></slot>
         </div>
       </div>
     </div>
@@ -69,7 +55,7 @@ export default {
         this.isShow = false
       }
       this.$emit('close')
-      window.removeEventListener('close')
+      window.removeEventListener('close', this.close)
     },
   },
 }
