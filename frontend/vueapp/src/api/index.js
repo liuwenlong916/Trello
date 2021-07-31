@@ -10,11 +10,10 @@ axios.interceptors.request.use(configs => {
   // }catch(e){
   //   throw e
   // }
-  const { authorization } = store.state.user.info
+  const authorization = store.state.user.info
   if (authorization) {
     configs.headers.authorization = authorization
   }
-
   return configs
 })
 
