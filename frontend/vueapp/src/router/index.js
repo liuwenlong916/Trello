@@ -64,11 +64,6 @@ router.beforeEach((to, from, next) => {
     to.matched.some(matched => matched.meta.requiresAuth) &&
     !store.state.user.info
   ) {
-    console.log(
-      !store.state.user.info,
-      store.state.user.info,
-      store.state.user.info,
-    )
     next({
       name: 'Login',
     })

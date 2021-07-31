@@ -21,7 +21,7 @@
         <t-popup-menu
           slot="content"
           :items="menuItems"
-          @commend="execute"
+          @command="execute"
         ></t-popup-menu>
       </t-popup>
     </div>
@@ -54,6 +54,7 @@ export default {
   },
   methods: {
     execute(command) {
+      console.log(command)
       switch (command) {
         case 'logout':
           this.logout()
@@ -61,6 +62,11 @@ export default {
         default:
           break
       }
+    },
+    logout() {
+      this.$store.commit('user/removeUserInfo')
+      // this.$store.dispatch('user/logout')
+      this.$router.push({ name: 'Login' })
     },
   },
 }

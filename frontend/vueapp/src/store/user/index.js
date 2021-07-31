@@ -19,6 +19,10 @@ export default {
       state.info = data
       localStorage.setItem('user', JSON.stringify(data))
     },
+    removeUserInfo: state => {
+      state.info = null
+      localStorage.removeItem('user')
+    },
   },
   actions: {
     register: ({}, data) => {
@@ -36,6 +40,15 @@ export default {
       } catch (e) {
         throw e
       }
+    },
+    logout: async ({ commit }) => {
+      // try {
+      //   let res = await logout()
+      // } catch (e) {
+      //   throw e
+      // }
+      console.log('logou')
+      commit('removeUserInfo')
     },
   },
 }

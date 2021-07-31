@@ -47,3 +47,9 @@ export const login = data => {
     data,
   })
 }
+// export const logout = () => {
+//   return axios({
+//     method: 'post',
+//     url: 'user/logout',
+//   })
+// }
