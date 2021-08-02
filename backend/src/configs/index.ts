@@ -13,11 +13,12 @@ const configs = {
   development: {
     server: {
       host: 'localhost',
-      port: 8088,
+      port: 9088,
     },
     database: database.development as IDatabaseConfig,
     jwt: {
       privateKey: 'kaikeba',
+      expiresIn: '24h',
     },
   },
   test: {

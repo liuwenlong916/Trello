@@ -67,5 +67,6 @@ export default class UserController {
     ctx.set('authorization', token) //设置头信息
     ctx.status = 201
     return userInfo
+    // ctx.body = userInfo
   }
 }
