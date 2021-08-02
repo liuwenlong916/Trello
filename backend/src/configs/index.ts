@@ -29,6 +29,7 @@ const configs = {
     database: database.test as IDatabaseConfig,
     jwt: {
       privateKey: 'kaikeba',
+      expiresIn: '24h',
     },
   },
   production: {
@@ -39,6 +40,7 @@ const configs = {
     database: database.production as IDatabaseConfig,
     jwt: {
       privateKey: 'kaikeba',
+      expiresIn: '24h',
     },
   },
 }

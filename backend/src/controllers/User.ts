@@ -63,7 +63,9 @@ export default class UserController {
       id: user.id,
       name,
     }
-    const token = jwt.sign(userInfo, configs.jwt.privateKey)
+    const token = jwt.sign(userInfo, configs.jwt.privateKey, {
+      expiresIn: configs.jwt.expiresIn,
+    })
     ctx.set('authorization', token) //设置头信息
     ctx.status = 201
     return userInfo
