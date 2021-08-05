@@ -5,11 +5,10 @@
     <div class="section-wrapper">
       <div class="account-form">
         <h1>注册 Trello</h1>
-        <form id="login-form" method="POST" @submit.prevent="registerSubmit">
+        <form id="login-form">
           <div>
             <label>
-              <input
-                class="form-field"
+              <k-input
                 autofocus="autofocus"
                 placeholder="输入用户名"
                 v-model="user.name"
@@ -17,27 +16,26 @@
             </label>
           </div>
           <div>
-            <label>
-              <input
-                type="password"
-                class="form-field"
-                placeholder="输入密码"
-                v-model="user.password"
-              />
-            </label>
+            <k-input
+              placeholder="输入密码"
+              type="password"
+              v-model="user.password"
+            ></k-input>
           </div>
           <div>
-            <label>
-              <input
-                type="password"
-                class="form-field"
-                placeholder="再次确认密码"
-                v-model="user.rePassword"
-              />
-            </label>
+            <k-input
+              type="password"
+              placeholder="再次确认密码"
+              v-model="user.rePassword"
+            />
           </div>
           <div>
-            <input type="submit" class="btn btn-success" value="注册" />
+            <!-- <input type="submit" class="btn btn-success" value="注册" /> -->
+            <k-button
+              type="success"
+              value="注册"
+              @click="registerSubmit"
+            ></k-button>
             <span class="signin-signup-separator">或者</span>
             <!-- <input type="button" class="btn" value="登录" /> -->
             <router-link :to="{ name: 'Login' }" tag="button" class="btn"
