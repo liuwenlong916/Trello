@@ -5,16 +5,16 @@
     <div class="section-wrapper">
       <div class="account-form">
         <h1>登录到 Trello</h1>
-        <!-- <form id="register-form" method="POST" @submit.prevent="loginSubmit"> -->
-        <k-form :models="user">
-          <k-form-item label="账号">
+        <!-- <form id="login-form" method="POST" @submit.prevent="loginSubmit"> -->
+        <k-form :model="user" :rules="rules" ref="loginForm">
+          <k-form-item label="账号" prop="name">
             <k-input
               autofocus="autofocus"
               placeholder="输入用户名"
               v-model="user.name"
             />
           </k-form-item>
-          <k-form-item label="密码">
+          <k-form-item label="密码" prop="password">
             <k-input
               type="password"
               placeholder="输入密码"
@@ -49,15 +49,25 @@ export default {
         name: '',
         password: '',
       },
+      rules: {
+        name: [{ required: true, message: '请输入用户名' }],
+        password: [{ required: true, message: '请输入密码' }],
+      },
     }
   },
   methods: {
     async loginSubmit() {
-      if (this.user.name.trim() === '' || this.user.password.trim() === '') {
-        return this.$message('用户名或密码不能为空')
-      }
-      await this.$store.dispatch('user/login', { ...this.user })
-      this.$router.push({ name: 'Home' })
+      // if (this.user.name.trim() === '' || this.user.password.trim() === '') {
+      //   return this.$message('用户名或密码不能为空')
+      // }
+      // await this.$store.dispatch('user/login', { ...this.user })
+      // this.$router.push({ name: 'Home' })
+      this.$refs['loginForm'].validator(async valid => {
+        if (valid) {
+          await this.$store.dispatch('user/login', { ...this.user })
+          this.$router.push({ name: 'Home' })
+        }
+      })
     },
   },
 }
