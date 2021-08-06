@@ -1,5 +1,5 @@
 <template>
-  <div class="item">
+  <div>
     <label v-if="label">{{ label }}</label>
     <slot></slot>
     <div style="height:20px">
