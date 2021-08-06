@@ -6,22 +6,22 @@
       <div class="account-form">
         <h1>登录到 Trello</h1>
         <!-- <form id="register-form" method="POST" @submit.prevent="loginSubmit"> -->
-        <form id="register-form" method="POST">
-          <div>
+        <k-form :models="user">
+          <k-form-item label="账号">
             <k-input
               autofocus="autofocus"
               placeholder="输入用户名"
               v-model="user.name"
             />
-          </div>
-          <div>
+          </k-form-item>
+          <k-form-item label="密码">
             <k-input
               type="password"
               placeholder="输入密码"
               v-model="user.password"
             />
-          </div>
-          <div>
+          </k-form-item>
+          <k-form-item>
             <k-button
               type="success"
               value="登陆"
@@ -31,15 +31,18 @@
             <router-link :to="{ name: 'Register' }" tag="button" class="btn">
               注册
             </router-link>
-          </div>
-        </form>
+          </k-form-item>
+        </k-form>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import KForm from '../components/KForm/KForm.vue'
+import KFormItem from '../components/KForm/KFormItem.vue'
 export default {
+  components: { KFormItem, KForm },
   data() {
     return {
       user: {

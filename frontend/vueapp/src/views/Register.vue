@@ -6,7 +6,7 @@
       <div class="account-form">
         <h1>注册 Trello</h1>
         <form id="login-form">
-          <div>
+          <k-form-item label="账号">
             <label>
               <k-input
                 autofocus="autofocus"
@@ -14,22 +14,22 @@
                 v-model="user.name"
               />
             </label>
-          </div>
-          <div>
+          </k-form-item>
+          <k-form-item label="密码">
             <k-input
               placeholder="输入密码"
               type="password"
               v-model="user.password"
             ></k-input>
-          </div>
-          <div>
+          </k-form-item>
+          <k-form-item label="再次输入密码">
             <k-input
               type="password"
               placeholder="再次确认密码"
               v-model="user.rePassword"
             />
-          </div>
-          <div>
+          </k-form-item>
+          <k-form-item>
             <!-- <input type="submit" class="btn btn-success" value="注册" /> -->
             <k-button
               type="success"
@@ -41,7 +41,7 @@
             <router-link :to="{ name: 'Login' }" tag="button" class="btn"
               >登录</router-link
             >
-          </div>
+          </k-form-item>
         </form>
       </div>
     </div>

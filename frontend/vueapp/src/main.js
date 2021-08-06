@@ -6,8 +6,8 @@ import '@/assets/css/css.css'
 
 import TMessage from '@/components/TMessage/TMessage.js'
 
-import KForm from '@/components/KForm'
-Vue.use(KForm)
+import k from '@/components/KForm'
+Vue.use(k)
 //按需引用
 // import { KInput, KButton } from './components/KForm'
 // Vue.component('KInput', KInput)
