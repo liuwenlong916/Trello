@@ -5,8 +5,8 @@
     <div class="section-wrapper">
       <div class="account-form">
         <h1>注册 Trello</h1>
-        <form id="login-form">
-          <k-form-item label="账号">
+        <k-form :model="user" :rules="rules" ref="registerForm">
+          <k-form-item label="账号" prop="name">
             <label>
               <k-input
                 autofocus="autofocus"
@@ -15,14 +15,14 @@
               />
             </label>
           </k-form-item>
-          <k-form-item label="密码">
+          <k-form-item label="密码" prop="password">
             <k-input
               placeholder="输入密码"
               type="password"
               v-model="user.password"
             ></k-input>
           </k-form-item>
-          <k-form-item label="再次输入密码">
+          <k-form-item label="再次输入密码" prop="rePassword">
             <k-input
               type="password"
               placeholder="再次确认密码"
@@ -42,7 +42,7 @@
               >登录</router-link
             >
           </k-form-item>
-        </form>
+        </k-form>
       </div>
     </div>
   </div>
@@ -58,21 +58,31 @@ export default {
         password: '',
         rePassword: '',
       },
+      rules: {
+        name: [{ required: true, message: '请输入账号' }],
+        password: [{ required: true, message: '请输入密码' }],
+        rePassword: [{ required: true, message: '请再次输入密码' }],
+      },
     }
   },
   methods: {
     async registerSubmit() {
-      console.log(this.user)
-      if (this.user.name.trim() === '' || this.user.password.trim() === '') {
-        return this.$message.error('用户名和密码不能为空')
-      }
-      if (this.user.password !== this.user.rePassword) {
-        return this.$message.error('两次密码不一致')
-      }
-      try {
-        await this.$store.dispatch('user/register', { ...this.user })
-        this.$router.push({ name: 'Login' })
-      } catch (e) {}
+      // if (this.user.name.trim() === '' || this.user.password.trim() === '') {
+      //   return this.$message.error('用户名和密码不能为空')
+      // }
+      // if (this.user.password !== this.user.rePassword) {
+      //   return this.$message.error('两次密码不一致')
+      // }
+      // try {
+      //   await this.$store.dispatch('user/register', { ...this.user })
+      //   this.$router.push({ name: 'Login' })
+      // } catch (e) {}
+      this.$refs['registerForm'].validator(async valid => {
+        if (valid) {
+          await this.$store.dispatch('user/register', { ...this.user })
+          this.$router.push({ name: 'Login' })
+        }
+      })
     },
   },
 }

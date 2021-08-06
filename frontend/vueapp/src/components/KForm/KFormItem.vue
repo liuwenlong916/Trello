@@ -35,6 +35,7 @@ export default {
     validate() {
       const rules = this.form.rules[this.prop]
       const value = this.form.model[this.prop]
+      console.log(this.form.rules, this.prop)
       const schema = new Schema({ [this.prop]: rules })
       return schema.validate({ [this.prop]: value }, errors => {
         if (errors) {
