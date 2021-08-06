@@ -40,6 +40,8 @@ function Message(prop) {
   instances.push(instance)
 }
 Message.close = function(instance, offset) {
+  instance.$destroy()
+  document.body.removeChild(instance.$el)
   // 元素高度 + 间隔
   let removeHeight = instance.$el.offsetHeight + offset
   let index = instances.findIndex(item => item === instance)
