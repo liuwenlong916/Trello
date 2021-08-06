@@ -2,8 +2,7 @@
   <div>
     <input
       type="button"
-      class="btn"
-      :class="{ 'btn-success': type == 'success' }"
+      :class="['btn', type == 'success' ? 'btn-success' : '']"
       v-bind="$attrs"
       v-on="$listeners"
     />
