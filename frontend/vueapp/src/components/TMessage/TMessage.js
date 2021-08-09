@@ -1,37 +1,42 @@
 import Vue from 'vue'
 import TMessage from './TMessage.vue'
 
-const TMessageClass = Vue.extend(TMessage)
-
 /**
  * 创建TMessage组件对象
  * 管理TMessage组件对象队列
  * @param {*} data
  */
 let instances = []
-function Message(prop) {
-  prop = prop || {}
-  if (typeof prop === 'string') {
-    prop = {
-      message: prop,
+function Message(props) {
+  props = props || {}
+  if (typeof props === 'string') {
+    props = {
+      message: props,
     }
   }
 
+  //extend方式
+  const TMessageClass = Vue.extend(TMessage)
   let instance = new TMessageClass({
-    propsData: prop,
-    methods: {
-      onClose() {
-        Message.close(this, this.verticalOffset)
-      },
+    propsData: props,
+  }).$mount()
+
+  //new Vue方式
+  /**
+  const vm = new Vue({
+    render(h) {
+      return h(TMessage, { props })
     },
-  })
-  instance.$mount()
+  }).$mount()
+  let instance = vm.$children[0]
+  */
+
   document.body.appendChild(instance.$el)
+  instance.show(Message.reset)
 
   // 记录之前每个弹框的高度 + 20 的偏移量
-  let verticalOffset = prop.verticalOffset || 20
+  let verticalOffset = props.verticalOffset || 20
   instances.forEach(item => {
-    //
     verticalOffset += item.$el.offsetHeight + 20
   })
   //top px
@@ -39,11 +44,11 @@ function Message(prop) {
 
   instances.push(instance)
 }
-Message.close = function(instance, offset) {
+Message.reset = function(instance, verticalOffset) {
   instance.$destroy()
   document.body.removeChild(instance.$el)
   // 元素高度 + 间隔
-  let removeHeight = instance.$el.offsetHeight + offset
+  let removeHeight = instance.$el.offsetHeight + verticalOffset
   let index = instances.findIndex(item => item === instance)
   instances = instances.filter(item => item !== instance)
 
@@ -69,4 +74,8 @@ types.forEach(type => {
   }
 })
 
-export default Message
+export default {
+  install(Vue) {
+    Vue.prototype.$message = Message
+  },
+}

@@ -67,22 +67,22 @@ export default {
   },
   methods: {
     async registerSubmit() {
-      // if (this.user.name.trim() === '' || this.user.password.trim() === '') {
-      //   return this.$message.error('用户名和密码不能为空')
-      // }
-      // if (this.user.password !== this.user.rePassword) {
-      //   return this.$message.error('两次密码不一致')
-      // }
-      // try {
-      //   await this.$store.dispatch('user/register', { ...this.user })
-      //   this.$router.push({ name: 'Login' })
-      // } catch (e) {}
-      this.$refs['registerForm'].validator(async valid => {
-        if (valid) {
-          await this.$store.dispatch('user/register', { ...this.user })
-          this.$router.push({ name: 'Login' })
-        }
-      })
+      if (this.user.name.trim() === '' || this.user.password.trim() === '') {
+        return this.$message.error('用户名和密码不能为空')
+      }
+      if (this.user.password !== this.user.rePassword) {
+        return this.$message.error('两次密码不一致')
+      }
+      try {
+        await this.$store.dispatch('user/register', { ...this.user })
+        this.$router.push({ name: 'Login' })
+      } catch (e) {}
+      // this.$refs['registerForm'].validator(async valid => {
+      //   if (valid) {
+      //     await this.$store.dispatch('user/register', { ...this.user })
+      //     this.$router.push({ name: 'Login' })
+      //   }
+      // })
     },
   },
 }

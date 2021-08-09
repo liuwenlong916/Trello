@@ -27,6 +27,7 @@ export default {
   methods: {
     onInput(e) {
       this.$emit('input', e.target.value)
+      //TODO解耦
       this.$parent.$emit('validate')
     },
   },

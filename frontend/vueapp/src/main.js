@@ -13,7 +13,8 @@ Vue.use(k)
 // Vue.component('KInput', KInput)
 // Vue.component('KButton', KButton)
 
-Vue.prototype.$message = TMessage
+// Vue.prototype.$message = TMessage
+Vue.use(TMessage)
 Vue.config.productionTip = false
 new Vue({
   router,

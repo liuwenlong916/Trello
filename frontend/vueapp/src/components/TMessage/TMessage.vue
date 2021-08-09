@@ -14,13 +14,6 @@
 <script>
 export default {
   name: 'TMessage',
-  mounted() {
-    this.timer = setTimeout(() => {
-      if (this.isShow) {
-        this.close()
-      }
-    }, this.duration)
-  },
   props: {
     message: {
       type: String,
@@ -30,20 +23,17 @@ export default {
       type: String,
       default: 'info',
     },
-    verticalOffset: {
+    duration: {
       type: Number,
-      default: 20,
-    },
-    isShow: {
-      type: Boolean,
-      default: true,
+      default: 1000,
     },
   },
   data() {
     return {
       center: true,
       timer: null,
-      duration: 1000,
+      isShow: false,
+      verticalOffset: 20,
     }
   },
   computed: {
@@ -54,12 +44,17 @@ export default {
     },
   },
   methods: {
-    close() {
+    show(reset) {
+      this.isShow = true
+      this.timer = setTimeout(() => {
+        this.close(reset)
+      }, this.duration)
+    },
+    close(reset) {
       this.isShow = false
-      this.onClose && this.onClose()
-      // if (typeof this.onClose === 'function') {
-      //   this.onClose()
-      // }
+      this.$destroy()
+      clearTimeout(this.timer)
+      reset && reset(this, this.verticalOffset)
     },
   },
 }
