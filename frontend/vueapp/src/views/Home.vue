@@ -18,9 +18,14 @@
           <span class="title">Welcome Board</span>
         </li> -->
         <template v-for="board in boards">
-          <li class="board-item" :key="board.id">
+          <router-link
+            class="board-item"
+            tag="li"
+            :key="board.id"
+            :to="{ name: 'Board', params: { id: board.id } }"
+          >
             <span class="title">{{ board.name }}</span>
-          </li>
+          </router-link>
         </template>
         <li class="board-item create-new-board">
           <textarea

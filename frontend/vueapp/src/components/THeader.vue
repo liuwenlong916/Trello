@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import TPopup from './TPopup'
+import TPopup from '@/components/TPopup'
 import TPopupMenu from '@/components/TPopupMenu'
 import { mapState } from 'vuex'
 export default {
