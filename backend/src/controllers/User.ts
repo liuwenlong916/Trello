@@ -1,6 +1,6 @@
 import { Body, Controller, Ctx, Post } from 'koa-ts-controllers'
 import { RegisterBody, LoginBody } from '../validators/User'
-import { User, User as UserModel } from '../models/User'
+import { User as UserModel } from '../models/User'
 import Boom from '@hapi/boom'
 import { Context } from 'koa'
 import crypto from 'crypto'

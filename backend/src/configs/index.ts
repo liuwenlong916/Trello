@@ -13,7 +13,7 @@ const configs = {
   development: {
     server: {
       host: 'localhost',
-      port: 9088,
+      port: 8888,
     },
     database: database.development as IDatabaseConfig,
     jwt: {
@@ -24,7 +24,7 @@ const configs = {
   test: {
     server: {
       host: 'localhost',
-      port: 8080,
+      port: 8888,
     },
     database: database.test as IDatabaseConfig,
     jwt: {
@@ -35,7 +35,7 @@ const configs = {
   production: {
     server: {
       host: 'localhost',
-      port: 8080,
+      port: 8888,
     },
     database: database.production as IDatabaseConfig,
     jwt: {

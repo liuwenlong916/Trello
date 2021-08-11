@@ -1,4 +1,6 @@
-import { login, register } from '@/api'
+// import { login, register } from '@/api'
+
+import * as api from '@/api'
 
 export default {
   namespaced: true,
@@ -26,11 +28,11 @@ export default {
   },
   actions: {
     register: ({}, data) => {
-      return register(data)
+      return api.register(data)
     },
     login: async ({ commit }, data) => {
       try {
-        let res = await login(data)
+        let res = await api.login(data)
         commit('updateUserInfo', {
           id: res.data.id,
           name: res.data.name,
