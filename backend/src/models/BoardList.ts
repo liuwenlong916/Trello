@@ -1,12 +1,21 @@
-import { AutoIncrement, Column, CreatedAt, DataType, ForeignKey, Model, PrimaryKey, Table, UpdatedAt } from 'sequelize-typescript'
+import {
+  AutoIncrement,
+  Column,
+  CreatedAt,
+  DataType,
+  ForeignKey,
+  Model,
+  PrimaryKey,
+  Table,
+  UpdatedAt,
+} from 'sequelize-typescript'
 import { Board } from './Board'
 import { User } from './User'
 
 @Table({
-  tableName: 'BoardList'
+  tableName: 'BoardList',
 })
-export class BoardList extends Model<BoardList>{
-
+export class BoardList extends Model<BoardList> {
   @PrimaryKey
   @AutoIncrement
   @Column
@@ -15,26 +24,26 @@ export class BoardList extends Model<BoardList>{
   @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER.UNSIGNED,
-    allowNull: false
+    allowNull: false,
   })
   userId: number
 
   @ForeignKey(() => Board)
   @Column({
     type: DataType.INTEGER.UNSIGNED,
-    allowNull: false
+    allowNull: false,
   })
-  boardid: number
+  boardId: number
 
-  @Column(({
+  @Column({
     type: DataType.STRING(255),
-    allowNull: false
-  }))
+    allowNull: false,
+  })
   name: string
 
   @Column({
     type: DataType.FLOAT,
-    allowNull: false
+    allowNull: false,
   })
   order: number
 

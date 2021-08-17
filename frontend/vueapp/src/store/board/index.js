@@ -5,6 +5,11 @@ export default {
   state: {
     boards: null,
   },
+  getters: {
+    getBoard: ({ boards }) => id => {
+      return Array.isArray(boards) ? boards.find(board => board.id == id) : null
+    },
+  },
   mutations: {
     updateBoards: (state, data) => {
       state.boards = data
