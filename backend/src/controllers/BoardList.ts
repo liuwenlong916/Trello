@@ -43,9 +43,9 @@ export default class BoarderListController {
     model.name = name
     model.order = maxOrder ? maxOrder.order + 65535 : 65535
     model.userId = ctx.userInfo.id
-    ctx.status = 201
     await model.save()
 
+    ctx.status = 201
     return model
   }
   ///boardlist?boardid=1
@@ -65,16 +65,19 @@ export default class BoarderListController {
     return list
   }
 
-  @Get('/id(\\d+)')
-  public async getBoardList(@Ctx() ctx: Context, @Params('id') id: number) {}
+  @Get('/:id(\\d+)')
+  public async getBoardList(@Ctx() ctx: Context, @Params('id') id: number) {
+    const boardList = await getBoardByPK(id, ctx.userInfo.id)
+    return boardList
+  }
 
-  @Put('/id(\\d+)')
+  @Put('/:id(\\d+)')
   public async updateBoardList(
     @Ctx() ctx: Context,
     @Params('id') id: number,
     @Body() body: PutBoardListBody,
   ) {}
 
-  @Delete('/id(\\d+)')
+  @Delete('/:id(\\d+)')
   public async deleteBoardList(@Ctx() ctx: Context, @Params('id') id: number) {}
 }

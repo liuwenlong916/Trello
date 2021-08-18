@@ -25,7 +25,6 @@ export default {
   },
   actions: {
     addBoardList: async ({ commit }, data) => {
-      console.log('action')
       const res = await api.addBoardList(data)
       commit('addBoardList', res.data)
     },
