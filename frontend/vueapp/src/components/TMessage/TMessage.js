@@ -7,7 +7,7 @@ import TMessage from './TMessage.vue'
  * @param {*} data
  */
 let instances = []
-function Message(props) {
+export function Message(props) {
   props = props || {}
   if (typeof props === 'string') {
     props = {

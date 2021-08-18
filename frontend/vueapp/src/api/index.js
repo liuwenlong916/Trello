@@ -1,5 +1,5 @@
 import axios from 'axios'
-import TMessage from '../components/TMessage/TMessage.js'
+import { Message } from '../components/TMessage/TMessage.js'
 import store from '@/store'
 
 axios.defaults.baseURL = process.env.VUE_APP_SERVER_API_PATH
@@ -28,7 +28,7 @@ axios.interceptors.response.use(
     if (errorDetails) {
       message += ' : ' + errorDetails
     }
-    TMessage.error(message)
+    Message.error(message)
     throw error
   },
 )
@@ -89,5 +89,23 @@ export const deleteBoard = id => {
   return axios({
     method: 'delete',
     url: `/board/${id}`,
+  })
+}
+
+export const addBoardList = data => {
+  return axios({
+    method: 'post',
+    url: '/boardlist',
+    data,
+  })
+}
+
+export const getBoardLists = boardid => {
+  return axios({
+    method: 'get',
+    url: `/boardlist`,
+    params: {
+      boardid,
+    },
   })
 }

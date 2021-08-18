@@ -60,6 +60,7 @@ const router = new VueRouter({
 })
 store.commit('user/initUserInfo')
 router.beforeEach((to, from, next) => {
+  //TODO 判断 auth是否过期
   if (
     to.matched.some(matched => matched.meta.requiresAuth) &&
     !store.state.user.info

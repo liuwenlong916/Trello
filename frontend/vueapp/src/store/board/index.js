@@ -33,6 +33,7 @@ export default {
     getBoard: async ({ commit }, id) => {
       try {
         const res = await api.getBoard(id)
+        commit('addBoard', res.data)
       } catch (e) {
         throw e
       }

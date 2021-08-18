@@ -44,7 +44,7 @@ export default class BoarderListController {
     model.order = maxOrder ? maxOrder.order + 65535 : 65535
     model.userId = ctx.userInfo.id
     ctx.status = 201
-    await model.save
+    await model.save()
 
     return model
   }
@@ -53,8 +53,17 @@ export default class BoarderListController {
   @Get('')
   public async getBoardLists(
     @Ctx() ctx: Context,
-    @Query('boardid') boardid: number,
-  ) {}
+    @Query('boardid') boardId: number,
+  ) {
+    await getBoardByPK(boardId, ctx.userInfo.id)
+    const list = await BoardListModel.findAll({
+      where: {
+        boardId,
+      },
+      order: [['order', 'desc']],
+    })
+    return list
+  }
 
   @Get('/id(\\d+)')
   public async getBoardList(@Ctx() ctx: Context, @Params('id') id: number) {}
