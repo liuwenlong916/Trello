@@ -19,10 +19,19 @@ import UserInfo from './types/global'
     models: [__dirname + '/models/**/*'],
   })
 
+  //鉴权
   // app.use(async (ctx: Context, next: Next) => {
-  //   let token = ctx.headers['authorization']
-  //   if (token) {
-  //     ctx.userInfo = jwt.verify(token, configs.jwt.privateKey) as UserInfo
+  //   try {
+  //     let token = ctx.header['authorization']
+  //     if (token) {
+  //       ctx.userInfo = jwt.verify(token, configs.jwt.privateKey) as UserInfo
+  //     }
+  //   } catch (e) {
+  //     if (e.name == 'TokenExpiredError') {
+  //       throw Boom.unauthorized('权限过期')
+  //     } else {
+  //       throw Boom.unauthorized('无权限')
+  //     }
   //   }
   //   await next()
   // })

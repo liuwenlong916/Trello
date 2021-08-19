@@ -10,7 +10,6 @@ export default async function authorization(ctx: Context, next: Next) {
     if (token) {
       ctx.userInfo = jwt.verify(token, configs.jwt.privateKey) as UserInfo
     }
-    await next()
   } catch (e) {
     console.log(e)
     if (e.name == 'TokenExpiredError') {
@@ -19,4 +18,5 @@ export default async function authorization(ctx: Context, next: Next) {
       throw Boom.unauthorized('无权限')
     }
   }
+  await next()
 }
