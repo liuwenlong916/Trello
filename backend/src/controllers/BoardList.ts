@@ -93,5 +93,10 @@ export default class BoarderListController {
   }
 
   @Delete('/:id(\\d+)')
-  public async deleteBoardList(@Ctx() ctx: Context, @Params('id') id: number) {}
+  public async deleteBoardList(@Ctx() ctx: Context, @Params('id') id: number) {
+    const model = await getBoardListByPK(id, ctx.userInfo.id)
+    model.destroy()
+    ctx.status = 204
+    return
+  }
 }

@@ -31,7 +31,7 @@ export class GetBoardListQuery {
 export class PutUpdateListBody {
   @ValidateIf(o => o.boardId !== undefined)
   @Min(1, {
-    message: '面板id不能为空且必须为数字',
+    message: '面板id必须为数字',
   })
   boardId: number
 

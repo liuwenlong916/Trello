@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Ctx,
+  Delete,
   Flow,
   Get,
   max,
@@ -74,5 +75,23 @@ export default class CardController {
     @Ctx() ctx: Context,
     @Params('id') id: number,
     @Body() body: PutUpdateCardBody,
-  ) {}
+  ) {
+    const model = await getCardByPk(id, ctx.userInfo.id)
+    const { name, description, boardListId } = body
+    model.name = name || model.name
+    model.boardListId = boardListId || model.boardListId
+    model.description = description || model.description
+
+    await model.save()
+    ctx.status = 204
+    return
+  }
+
+  @Delete('/:id(\\d+)')
+  public async deleteCard(@Ctx() ctx: Context, @Params('id') id: number) {
+    const model = await getCardByPk(id, ctx.userInfo.id)
+    model.destroy()
+    ctx.status = 204
+    return
+  }
 }

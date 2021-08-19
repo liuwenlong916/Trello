@@ -11,7 +11,6 @@ import {
 } from 'koa-ts-controllers'
 
 // import GetUsersQuery from '../validators/getUserQuery'
-import { GetUsersQuery, PostUserBody } from '../validators/index'
 import Boom from '@hapi/boom' //验证提示信息
 import { Context } from 'koa'
 import authorization from '../middlewares/authorization'
@@ -74,9 +73,9 @@ class HelloController {
   @Flow([authorization])
   async auth(
     @Ctx()
-    ctx: Context
+    ctx: Context,
   ) {
     // ctx.body = "不登陆看不到"
-    return "不登陆看不到"
+    return '不登陆看不到'
   }
 }

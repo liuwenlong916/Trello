@@ -71,5 +71,6 @@ export default class BoardController {
     const board = await getBoardByPK(id, ctx.userInfo.id)
     await board.destroy()
     ctx.status = 204
+    return
   }
 }

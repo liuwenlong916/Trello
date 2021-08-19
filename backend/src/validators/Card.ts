@@ -1,4 +1,4 @@
-import { IsNotEmpty, Min } from 'class-validator'
+import { IsNotEmpty, Min, ValidateIf } from 'class-validator'
 import { BoardListCard } from '../models/BoardListCard'
 import Boom from '@hapi/boom'
 
@@ -16,7 +16,25 @@ export class PostAddCardBody {
   })
   description: string
 }
-export class PutUpdateCardBody {}
+export class PutUpdateCardBody {
+  @ValidateIf(o => o.name != undefined)
+  @IsNotEmpty({
+    message: '名称不能为空',
+  })
+  name: string
+
+  @ValidateIf(o => o.boardList !== undefined)
+  @Min(1, {
+    message: '看板id必须为数组',
+  })
+  boardListId: number
+
+  @ValidateIf(o => o.name != undefined)
+  @IsNotEmpty({
+    message: '描述不能为空',
+  })
+  description: string
+}
 
 export async function getCardByPk(
   id: number,
