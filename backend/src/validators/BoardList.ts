@@ -28,22 +28,24 @@ export class GetBoardListQuery {
   )
   boardId: number
 }
-export class PutBoardListBody {
+export class PutUpdateListBody {
   @ValidateIf(o => o.boardId !== undefined)
   @Min(1, {
-    message: '面板id必须为数字',
+    message: '面板id不能为空且必须为数字',
   })
   boardId: number
+
   @ValidateIf(o => o.name !== undefined)
   @IsNotEmpty({
     message: '列表名称不能为空',
   })
   name: string
+
   @ValidateIf(o => o.order !== undefined)
   @IsNumber(
     {},
     {
-      message: 'order 必须为数字',
+      message: '列表名称不能为空',
     },
   )
   order: number
@@ -53,6 +55,7 @@ export async function getBoardListByPK(
   id: number,
   userid: number,
 ): Promise<BoardListModel> {
+  console.log('PK', id, userid)
   const boardList = await BoardListModel.findByPk(id)
 
   if (!boardList) {

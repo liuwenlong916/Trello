@@ -10,10 +10,16 @@
       </h2>
 
       <!--面板容器-->
-      <div class="board">
+      <div class="board" ref="board">
         <!--面板列表容器-->
         <template v-for="item in boardList">
-          <t-list :data="item" :key="item.id"></t-list>
+          <t-list
+            :data="item"
+            :key="item.id"
+            @dragStart="dragStart"
+            @dragMove="dragMove"
+            @dragEnd="dragEnd"
+          ></t-list>
         </template>
 
         <!--无内容列表容器-->
@@ -57,6 +63,69 @@ export default {
     if (!this.boardList || !this.boardList.length) {
       this.$store.dispatch('boardList/getBoardLists', this.$route.params.id)
     }
+  },
+  methods: {
+    dragStart({ component }) {
+      const el = component.$el
+      const board = el.parentNode
+      const lists = [...board.querySelectorAll('.list-wrap-content')]
+      el._index = lists.findIndex(list => list == el)
+    },
+    dragMove({ x, y, component }) {
+      const el = component.$el
+      const board = this.$refs.board
+      const lists = [...board.querySelectorAll('.list-wrap-content')]
+      const currIndex = lists.findIndex(item => item == el)
+      lists.forEach((list, index) => {
+        // .filter(list => list != el)会使index发生变化
+        if (index === currIndex) return
+        const clientRect = list.getBoundingClientRect()
+        if (
+          x >= clientRect.left &&
+          x <= clientRect.right &&
+          y >= clientRect.top &&
+          y <= clientRect.bottom
+        ) {
+          if (currIndex < index) {
+            board.insertBefore(el, list.nextElementSibling)
+          } else if (currIndex > index) {
+            board.insertBefore(el, list)
+          }
+        }
+      })
+    },
+    async dragEnd({ component }) {
+      const el = component.$el
+      const board = el.parentNode
+      const lists = [...board.querySelectorAll('.list-wrap-content')]
+      const currIndex = lists.findIndex(item => item == el)
+      if (currIndex !== el._index) {
+        // console.log(el.dataset.order)
+        let newOrder = 0
+        const preOrder =
+          currIndex - 1 > -1
+            ? parseFloat(lists[currIndex - 1].dataset.order)
+            : 0
+        const nextOrder =
+          currIndex + 1 < lists.length
+            ? parseFloat(lists[currIndex + 1].dataset.order)
+            : 0
+
+        if (currIndex === 0) {
+          newOrder = nextOrder / 2
+        } else if (currIndex + 1 === lists.length) {
+          newOrder = preOrder + 65535
+        } else {
+          newOrder = preOrder + (nextOrder - preOrder) / 2
+        }
+        console.log(preOrder, nextOrder, newOrder)
+        await this.$store.dispatch('boardList/editBoardList', {
+          order: newOrder,
+          id: component.data.id,
+          boardId: this.board.boardId,
+        })
+      }
+    },
   },
 }
 </script>

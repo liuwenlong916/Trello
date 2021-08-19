@@ -12,6 +12,7 @@ export default async function authorization(ctx: Context, next: Next) {
     }
     await next()
   } catch (e) {
+    console.log(e)
     if (e.name == 'TokenExpiredError') {
       throw Boom.unauthorized('权限过期')
     } else {

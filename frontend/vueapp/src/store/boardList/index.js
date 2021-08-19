@@ -22,6 +22,15 @@ export default {
       }
       state.boardlists = [...state.boardlists, data]
     },
+    updateBoardList: (state, data) => {
+      state.boardlists = state.boardlists.map(list => {
+        if (list.id == data.id) {
+          return { ...list, ...data }
+        }
+        return list
+      })
+      console.log(state.boardlists)
+    },
   },
   actions: {
     addBoardList: async ({ commit }, data) => {
@@ -31,6 +40,10 @@ export default {
     getBoardLists: async ({ commit }, id) => {
       const res = await api.getBoardLists(id)
       commit('initBoardList', res.data)
+    },
+    editBoardList: async ({ commit }, data) => {
+      await api.editBoardList(data)
+      commit('updateBoardList', data)
     },
   },
 }

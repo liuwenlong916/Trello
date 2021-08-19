@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Message } from '../components/TMessage/TMessage.js'
 import store from '@/store'
+import router from '@/router'
 
 axios.defaults.baseURL = process.env.VUE_APP_SERVER_API_PATH
 
@@ -24,10 +25,15 @@ axios.interceptors.response.use(
     return response
   },
   error => {
-    let { message, errorDetails } = error.response.data
+    let { message, errorDetails, statusCode } = error.response.data
     if (errorDetails) {
       message += ' : ' + errorDetails
     }
+    // if ((statusCode = 401)) {
+    //   router.push({
+    //     name: 'Login',
+    //   })
+    // }
     Message.error(message)
     throw error
   },
@@ -106,6 +112,19 @@ export const getBoardLists = boardid => {
     url: `/boardlist`,
     params: {
       boardid,
+    },
+  })
+}
+
+export const editBoardList = data => {
+  console.log(data.id)
+  return axios({
+    method: 'put',
+    url: `/boardlist/${data.id}`,
+    data: {
+      order: data.order,
+      boardId: data.boardId,
+      name: data.name,
     },
   })
 }

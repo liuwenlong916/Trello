@@ -13,9 +13,10 @@ import {
 import { Context } from 'koa'
 import authorization from '../middlewares/authorization'
 import {
+  getBoardListByPK,
   GetBoardListQuery,
   PostAddBoardListBody,
-  PutBoardListBody,
+  PutUpdateListBody,
 } from '../validators/BoardList'
 import { getBoardByPK } from '../validators/Board'
 import { BoardList as BoardListModel } from '../models/BoardList'
@@ -60,7 +61,7 @@ export default class BoarderListController {
       where: {
         boardId,
       },
-      order: [['order', 'desc']],
+      order: [['order', 'asc']],
     })
     return list
   }
@@ -75,8 +76,21 @@ export default class BoarderListController {
   public async updateBoardList(
     @Ctx() ctx: Context,
     @Params('id') id: number,
-    @Body() body: PutBoardListBody,
-  ) {}
+    @Body() body: PutUpdateListBody,
+  ) {
+    const model = await getBoardListByPK(id, ctx.userInfo.id)
+    const { name, boardId, order } = body
+
+    model.name = name || model.name
+    model.order = order || model.order
+    model.boardId = boardId || model.boardId
+    await model.save()
+
+    ctx.status = 204
+    // return model
+    // put 无返回
+    return
+  }
 
   @Delete('/:id(\\d+)')
   public async deleteBoardList(@Ctx() ctx: Context, @Params('id') id: number) {}
