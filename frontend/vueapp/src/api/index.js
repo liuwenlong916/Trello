@@ -29,11 +29,12 @@ axios.interceptors.response.use(
     if (errorDetails) {
       message += ' : ' + errorDetails
     }
-    // if ((statusCode = 401)) {
-    //   router.push({
-    //     name: 'Login',
-    //   })
-    // }
+    //权限过期重新登陆
+    if (statusCode === 401) {
+      router.push({
+        name: 'Login',
+      })
+    }
     Message.error(message)
     throw error
   },
@@ -126,5 +127,23 @@ export const editBoardList = data => {
       boardId: data.boardId,
       name: data.name,
     },
+  })
+}
+
+export const getCards = boardlistid => {
+  return axios({
+    method: 'get',
+    url: '/card',
+    params: {
+      boardlistid,
+    },
+  })
+}
+
+export const addCard = data => {
+  return axios({
+    method: 'post',
+    url: '/card',
+    data,
   })
 }

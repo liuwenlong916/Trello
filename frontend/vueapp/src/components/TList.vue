@@ -1,5 +1,9 @@
 <template>
-  <div class="list-wrap list-wrap-content" :data-order="data.order">
+  <div
+    class="list-wrap list-wrap-content"
+    :class="{ 'list-adding': listAdding }"
+    :data-order="data.order"
+  >
     <div class="list-placeholder" ref="placeHolder"></div>
 
     <div class="list" ref="list">
@@ -17,9 +21,12 @@
       </div>
 
       <div class="list-cards">
-        <t-card></t-card>
+        <template v-for="card in cards">
+          <t-card :data="card" :key="card.id"></t-card>
+        </template>
         <div class="list-card-add-form">
           <textarea
+            ref="cardName"
             class="form-field-input"
             placeholder="为这张卡片添加标题……"
           ></textarea>
@@ -27,13 +34,13 @@
       </div>
 
       <div class="list-footer">
-        <div class="list-card-add">
+        <div class="list-card-add" @click="showListAdding">
           <span class="icon icon-add"></span>
           <span>添加另一张卡片</span>
         </div>
         <div class="list-add-confirm">
-          <button class="btn btn-success">添加卡片</button>
-          <span class="icon icon-close"></span>
+          <button class="btn btn-success" @click="addCard">添加卡片</button>
+          <span class="icon icon-close" @click="hideListAdding"></span>
         </div>
       </div>
     </div>
@@ -58,6 +65,11 @@ export default {
     header.addEventListener('mousedown', this.dragDown)
     this.originalName = this.data.name
   },
+  created() {
+    if (!this.cards || !this.cards.length) {
+      this.$store.dispatch('card/getCards', this.data.id)
+    }
+  },
   data() {
     return {
       drag: {
@@ -71,7 +83,13 @@ export default {
         elementY: 0,
       },
       originalName: '',
+      listAdding: false,
     }
+  },
+  computed: {
+    cards() {
+      return this.$store.getters['card/getCards'](this.data.id)
+    },
   },
 
   methods: {
@@ -146,6 +164,33 @@ export default {
           id: this.data.id,
           name,
         })
+      }
+    },
+    showListAdding() {
+      this.listAdding = true
+      this.$nextTick(() => {
+        this.$refs.cardName.focus()
+      })
+    },
+    hideListAdding() {
+      this.listAdding = false
+      this.$refs.cardName.value = ''
+    },
+    addCard() {
+      const name = this.$refs.cardName.value
+      if (name.trim() == '') {
+        this.$refs.cardName.focus()
+        return
+      } else {
+        try {
+          this.$store.dispatch('card/addCard', {
+            boardListId: this.data.id,
+            name,
+          })
+        } catch (e) {}
+
+        this.listAdding = false
+        this.$refs.cardName.value = ''
       }
     },
   },

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import user from './user'
 import board from './board'
 import boardList from './boardList'
+import card from './card'
 
 Vue.use(Vuex)
 
@@ -14,5 +15,6 @@ export default new Vuex.Store({
     user,
     board,
     boardList,
+    card,
   },
 })

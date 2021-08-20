@@ -37,7 +37,11 @@ export default {
       const res = await api.addBoardList(data)
       commit('addBoardList', res.data)
     },
-    getBoardLists: async ({ commit }, id) => {
+    // getBoardLists: async ({ commit }, id) => {
+    //   const res = await api.getBoardLists(id)
+    //   commit('initBoardList', res.data)
+    // },
+    async getBoardLists({ commit }, id) {
       const res = await api.getBoardLists(id)
       commit('initBoardList', res.data)
     },

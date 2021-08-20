@@ -20,6 +20,9 @@ const configs = {
       privateKey: 'kaikeba',
       expiresIn: '24h',
     },
+    storage: {
+      prefix: '/public/attachments/',
+    },
   },
   test: {
     server: {
@@ -31,6 +34,9 @@ const configs = {
       privateKey: 'kaikeba',
       expiresIn: '24h',
     },
+    storage: {
+      prefix: '/public/attachments/',
+    },
   },
   production: {
     server: {
@@ -41,6 +47,9 @@ const configs = {
     jwt: {
       privateKey: 'kaikeba',
       expiresIn: '24h',
+    },
+    storage: {
+      prefix: '/public/attachments/',
     },
   },
 }

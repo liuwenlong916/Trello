@@ -1,5 +1,6 @@
 import {
-  AutoIncrement, BelongsTo,
+  AutoIncrement,
+  BelongsTo,
   Column,
   CreatedAt,
   DataType,
@@ -7,48 +8,46 @@ import {
   Model,
   PrimaryKey,
   Table,
-  UpdatedAt
-} from "sequelize-typescript";
-import { User } from "./User";
-import { BoardListCard } from "./BoardListCard";
+  UpdatedAt,
+} from 'sequelize-typescript'
+import { User } from './User'
+import { BoardListCard } from './BoardListCard'
 
 @Table({
-  tableName: 'comment'
+  tableName: 'Comment',
 })
 export class Comment extends Model<Comment> {
-
   @PrimaryKey
   @AutoIncrement
   @Column
-  id: number;
+  id: number
 
   @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER.UNSIGNED,
-    allowNull: false
+    allowNull: false,
   })
-  userId: number;
+  userId: number
 
   @BelongsTo(() => User)
-  user: User;
+  user: User
 
   @ForeignKey(() => BoardListCard)
   @Column({
     type: DataType.INTEGER.UNSIGNED,
-    allowNull: false
+    allowNull: false,
   })
-  boardListCardId: number;
+  boardListCardId: number
 
   @Column({
     type: DataType.STRING(2000),
-    allowNull: false
+    allowNull: false,
   })
-  content: string;
+  content: string
 
   @CreatedAt
-  createdAt: Date;
+  createdAt: Date
 
   @UpdatedAt
-  updatedAt: Date;
-
+  updatedAt: Date
 }

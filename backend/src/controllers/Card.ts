@@ -21,7 +21,11 @@ import {
   PutUpdateCardBody,
 } from '../validators/Card'
 import { BoardListCard as CardModel } from '../models/BoardListCard'
-@Controller('card')
+import { CardAttachment as CardAttachmentModel } from '../models/CardAttachment'
+import { Comment as CommentModel } from '../models/Comment'
+import { Attachment as AttachmentModel } from '../models/Attachment'
+import configs from '../configs'
+@Controller('/card')
 @Flow([authorization])
 export default class CardController {
   @Post('')
@@ -38,7 +42,8 @@ export default class CardController {
 
     const model = new CardModel()
     model.name = name
-    model.description = description
+    model.boardListId = boardListId
+    model.description = description || ''
     model.order = maxOrder ? maxOrder.order + 65535 : 65535
     model.userId = ctx.userInfo.id
     await model.save()
@@ -54,14 +59,57 @@ export default class CardController {
   ) {
     await getBoardListByPK(boardListId, ctx.userInfo.id)
 
-    const list = CardModel.findAll({
+    const list = await CardModel.findAll({
       where: {
         boardListId,
       },
       order: [['order', 'desc']],
+      include: [
+        {
+          model: CommentModel,
+          attributes: ['id'],
+        },
+        {
+          model: CardAttachmentModel,
+          include: [
+            {
+              model: AttachmentModel,
+            },
+          ],
+        },
+      ],
     })
 
-    return list
+    let modelList = list.map((card: CardModel) => {
+      let coverPath = ''
+      let attachments = card.attachments.map(attachment => {
+        const data = attachment.toJSON() as CardAttachmentModel & {
+          path: string
+        }
+        data.path = configs.storage.prefix + data.detail.name
+        if (data.isCover) {
+          coverPath = data.path
+        }
+
+        return data
+      })
+
+      return {
+        id: card.id,
+        userId: card.userId,
+        boardListId: card.boardListId,
+        order: card.order,
+        name: card.name,
+        description: card.description,
+        createdAt: card.createdAt,
+        updatedAt: card.updatedAt,
+        commentCount: card.comments.length,
+        coverPath,
+        attachments,
+      }
+    })
+
+    return modelList
   }
 
   @Get('/:id(\\d+)')
