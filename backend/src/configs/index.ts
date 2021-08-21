@@ -1,3 +1,4 @@
+import path from 'path'
 import database from './database.json'
 
 interface IDatabaseConfig {
@@ -22,6 +23,7 @@ const configs = {
     },
     storage: {
       prefix: '/public/attachments/',
+      dir: path.resolve(__dirname, '../attachments'),
     },
   },
   test: {
@@ -36,6 +38,7 @@ const configs = {
     },
     storage: {
       prefix: '/public/attachments/',
+      dir: path.resolve(__dirname, '../attachments'),
     },
   },
   production: {
@@ -50,6 +53,7 @@ const configs = {
     },
     storage: {
       prefix: '/public/attachments/',
+      dir: path.resolve(__dirname, '../attachments'),
     },
   },
 }

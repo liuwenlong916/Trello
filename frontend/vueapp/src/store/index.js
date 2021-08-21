@@ -8,7 +8,11 @@ import card from './card'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    server: {
+      staticPath: process.env.VUE_APP_SERVER_STATIC_PATH,
+    },
+  },
   mutations: {},
   actions: {},
   modules: {

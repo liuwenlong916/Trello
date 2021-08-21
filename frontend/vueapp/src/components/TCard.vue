@@ -1,5 +1,11 @@
 <template>
-  <div class="list-card">
+  <router-link
+    :to="{
+      name: 'Card',
+      params: { listId: data.boardListId, cardId: data.id },
+    }"
+    class="list-card"
+  >
     <div
       v-if="data.coverPath"
       class="list-card-cover"
@@ -19,10 +25,10 @@
         v-if="Array.isArray(data.attachments) && data.attachments.length > 0"
       >
         <span class="icon icon-attachment"></span>
-        <span class="text">{{data.attachments.length}}</span>
+        <span class="text">{{ data.attachments.length }}</span>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>

@@ -88,7 +88,7 @@ export default class BoarderListController {
 
     ctx.status = 204
     // return model
-    // put 无返回
+    // 204 无返回值
     return
   }
 

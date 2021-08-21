@@ -25,6 +25,8 @@ import { CardAttachment as CardAttachmentModel } from '../models/CardAttachment'
 import { Comment as CommentModel } from '../models/Comment'
 import { Attachment as AttachmentModel } from '../models/Attachment'
 import configs from '../configs'
+import Boom from '@hapi/boom'
+
 @Controller('/card')
 @Flow([authorization])
 export default class CardController {
@@ -125,14 +127,15 @@ export default class CardController {
     @Body() body: PutUpdateCardBody,
   ) {
     const model = await getCardByPk(id, ctx.userInfo.id)
-    const { name, description, boardListId } = body
+    const { name, description, boardListId, order } = body
     model.name = name || model.name
     model.boardListId = boardListId || model.boardListId
     model.description = description || model.description
+    model.order = order || model.order
 
     await model.save()
-    ctx.status = 204
-    return
+    // ctx.status = 204
+    return model
   }
 
   @Delete('/:id(\\d+)')
@@ -141,5 +144,40 @@ export default class CardController {
     model.destroy()
     ctx.status = 204
     return
+  }
+
+  @Post('/attachment')
+  public async addAttachment(@Ctx() ctx: Context, @Body() body: any) {
+    const { cardId } = body
+    const card = await getCardByPk(cardId, ctx.userInfo.id)
+    if (!ctx.request.files || !ctx.request.files.attachment) {
+      throw Boom.badData('缺少附件')
+    }
+    const file: any = ctx.request.files.attachment
+
+    const attachment = new AttachmentModel()
+    attachment.userId = ctx.userInfo.id
+    attachment.originName = file.name
+    attachment.name = file.path.split('\\').pop() as string
+    attachment.size = file.size
+    attachment.type = file.type
+    await attachment.save()
+
+    const cardAttachment = new CardAttachmentModel()
+    cardAttachment.userId = ctx.userInfo.id
+    cardAttachment.attachmentId = attachment.id
+    cardAttachment.boardListCardId = card.id
+    await cardAttachment.save()
+
+    ctx.status = 201
+    return {
+      id: cardAttachment.id,
+      boardListCardId: card.id,
+      attachmentId: attachment.id,
+      userId: ctx.userInfo.id,
+      path: configs.storage.prefix + attachment.name,
+      isCover: false,
+      detail: attachment,
+    }
   }
 }

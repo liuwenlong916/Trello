@@ -8,6 +8,9 @@ import Boom from '@hapi/boom'
 import { Sequelize } from 'sequelize-typescript'
 import jwt from 'jsonwebtoken'
 import UserInfo from './types/global'
+import koaBody from 'koa-body'
+import koaStaticCache from 'koa-static-cache'
+
 ;(async () => {
   const app = new Koa()
 
@@ -35,6 +38,17 @@ import UserInfo from './types/global'
   //   }
   //   await next()
   // })
+
+  //静态资源代理
+  app.use(
+    koaStaticCache({
+      dir: configs.storage.dir,
+      prefix: configs.storage.prefix,
+      gzip: true,
+      dynamic: true,
+    }),
+  )
+
   //注册路由
   await bootstrapControllers(app, {
     router,
@@ -68,7 +82,16 @@ import UserInfo from './types/global'
   router.all(/^\/(.*)(?:\/|$)/, async ctx => {
     throw Boom.notFound('没有该路由')
   })
-  app.use(KoaBodyParer()) //解析body
+  // app.use(KoaBodyParer()) koaBody
+  app.use(
+    koaBody({
+      multipart: true,
+      formidable: {
+        uploadDir: configs.storage.dir,
+        keepExtensions: true,
+      },
+    }),
+  )
   app.use(router.routes())
   app.listen(configs.server.port, configs.server.host, () => {
     console.log(

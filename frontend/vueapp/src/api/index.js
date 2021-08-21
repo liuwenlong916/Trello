@@ -147,3 +147,27 @@ export const addCard = data => {
     data,
   })
 }
+
+export const editCard = data => {
+  return axios({
+    method: 'put',
+    url: `/card/${data.id}`,
+    data: {
+      boardListId: data.boardListId,
+      name: data.name,
+      order: data.order,
+      description: data.description,
+    },
+  })
+}
+
+export const uploadAttachment = data => {
+  const fd = new FormData()
+  fd.append('cardId', data.cardId)
+  fd.append('attachment', data.file)
+  return axios({
+    method: 'post',
+    url: 'card/attachment',
+    data: fd,
+  })
+}

@@ -1,4 +1,10 @@
-import { IsNotEmpty, MaxLength, Min, ValidateIf } from 'class-validator'
+import {
+  IsNotEmpty,
+  IsNumber,
+  MaxLength,
+  Min,
+  ValidateIf,
+} from 'class-validator'
 import { BoardListCard } from '../models/BoardListCard'
 import Boom from '@hapi/boom'
 
@@ -38,11 +44,20 @@ export class PutUpdateCardBody {
   })
   boardListId: number
 
-  @ValidateIf(o => o.name != undefined)
+  @ValidateIf(o => o.description != undefined)
   @MaxLength(2000, {
     message: '描述最上2000字符',
   })
   description: string
+
+  @ValidateIf(o => o.order !== undefined)
+  @IsNumber(
+    {},
+    {
+      message: 'order 必须为数组',
+    },
+  )
+  order: number
 }
 
 export async function getCardByPk(

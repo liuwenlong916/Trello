@@ -11,6 +11,11 @@ export default {
         ? boardlists.filter(item => item.boardId == id)
         : null
     },
+    getBoardList: ({ boardlists }) => listid => {
+      return Array.isArray(boardlists)
+        ? boardlists.find(item => item.id == listid)
+        : null
+    },
   },
   mutations: {
     initBoardList: (state, data) => {

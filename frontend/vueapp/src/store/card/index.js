@@ -4,11 +4,12 @@ export default {
   namespaced: true,
   state: { cards: [] },
   getters: {
-    getCards: ({ cards }) => id => {
+    getCards: ({ cards }) => boardListId => {
       return Array.isArray(cards)
-        ? cards.filter(card => card.boardListId == id)
+        ? cards.filter(card => card.boardListId == boardListId)
         : null
     },
+    getCard: ({ cards }) => id => cards.find(item => (item.id = id)),
   },
   mutations: {
     //state不可以解构，
@@ -17,6 +18,25 @@ export default {
     },
     addCard(state, data) {
       state.cards.push(data)
+    },
+    editCard(state, data) {
+      state.cards = state.cards.map(card => {
+        if (card.id == data.id) {
+          return { ...card, ...data }
+        }
+        return card
+      })
+    },
+    addAttachment(state, data) {
+      state.cards = state.cards.map(card => {
+        if (card.id == data.boardListCardId) {
+          return {
+            ...card,
+            attachments: [...card.attachments, data],
+          }
+        }
+        return card
+      })
     },
   },
   actions: {
@@ -27,6 +47,15 @@ export default {
     async addCard({ commit }, data) {
       const res = await api.addCard(data)
       commit('addCard', res.data)
+    },
+    async editCard({ commit }, data) {
+      const res = await api.editCard(data)
+      commit('editCard', data)
+    },
+    async uploadAttachment({ commit }, data) {
+      const res = await api.uploadAttachment(data)
+      console.log(res.data)
+      commit('addAttachment', res.data)
     },
   },
 }
