@@ -171,3 +171,9 @@ export const uploadAttachment = data => {
     data: fd,
   })
 }
+export const deleteAttachment = id => {
+  return axios({
+    method: 'delete',
+    url: `card/attachment/${id}`,
+  })
+}

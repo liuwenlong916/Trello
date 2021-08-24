@@ -16,6 +16,8 @@ import { userInfo } from 'os'
 import authorization from '../middlewares/authorization'
 import { getBoardListByPK } from '../validators/BoardList'
 import {
+  getAttachmentByPk,
+  getCardAttachmentByPk,
   getCardByPk,
   PostAddCardBody,
   PutUpdateCardBody,
@@ -26,6 +28,8 @@ import { Comment as CommentModel } from '../models/Comment'
 import { Attachment as AttachmentModel } from '../models/Attachment'
 import configs from '../configs'
 import Boom from '@hapi/boom'
+import fs from 'fs'
+import path from 'path'
 
 @Controller('/card')
 @Flow([authorization])
@@ -179,5 +183,22 @@ export default class CardController {
       isCover: false,
       detail: attachment,
     }
+  }
+
+  @Delete('/attachment/:id(\\d+)')
+  public async deleteAttachment(@Ctx() ctx: Context, @Params('id') id: number) {
+    const cardAttachment = await getCardAttachmentByPk(id, ctx.userInfo.id)
+    const attachment = await getAttachmentByPk(cardAttachment.attachmentId)
+    //1.删除文件
+    const dir = path.resolve(configs.storage.dir, attachment.name)
+    await fs.exists(dir, () => {
+      fs.unlinkSync(dir)
+    })
+    //2.删除CardAttachment表
+    await cardAttachment.destroy()
+    //3.删除Attachment表
+    await attachment.destroy()
+    ctx.status = 204
+    return
   }
 }

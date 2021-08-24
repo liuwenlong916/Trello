@@ -28,9 +28,13 @@
               @click="loginSubmit"
             ></k-button>
             <span class="signin-signup-separator">或者</span>
-            <router-link :to="{ name: 'Register' }" tag="button" class="btn">
+            <!-- 回车会触发跳转 <router-link :to="{ name: 'Register' }" tag="button" class="btn">
               注册
-            </router-link>
+            </router-link> -->
+            <k-button
+              value="注册"
+              @click="$router.push({ name: 'Register' })"
+            />
           </k-form-item>
         </k-form>
       </div>

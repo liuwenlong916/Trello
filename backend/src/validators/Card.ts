@@ -7,6 +7,8 @@ import {
 } from 'class-validator'
 import { BoardListCard } from '../models/BoardListCard'
 import Boom from '@hapi/boom'
+import { CardAttachment } from '../models/CardAttachment'
+import { Attachment } from '../models/Attachment'
 
 export class PostAddCardBody {
   @IsNotEmpty({
@@ -74,4 +76,28 @@ export async function getCardByPk(
   }
 
   return cart
+}
+export async function getCardAttachmentByPk(
+  id: number,
+  userId: number,
+): Promise<CardAttachment> {
+  const cardAttachment = await CardAttachment.findByPk(id)
+  if (!cardAttachment) {
+    throw Boom.notFound('无附件')
+  }
+  if (cardAttachment.userId != userId) {
+    throw Boom.forbidden('无权限')
+  }
+  return cardAttachment
+}
+
+export async function getAttachmentByPk(id: number): Promise<Attachment> {
+  const attachment = await Attachment.findByPk(id)
+  if (!attachment) {
+    throw Boom.notFound('无附件')
+  }
+  // if (attachment.userId == userId) {
+  //   throw Boom.forbidden('无权限')
+  // }
+  return attachment
 }

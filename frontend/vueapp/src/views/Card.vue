@@ -1,7 +1,12 @@
 <template>
-  <div class="window-overlay" style="display: block" v-if="card && list">
+  <div
+    class="window-overlay"
+    style="display: block"
+    v-if="card && list"
+    @click="hiddleCard"
+  >
     <!--弹出式窗口-->
-    <div class="popup">
+    <div class="popup" ref="popup">
       <div class="popup-header">
         <div class="popup-title">
           <div class="popup-title-icon">
@@ -50,38 +55,10 @@
               <h3>附件</h3>
             </div>
           </div>
-
-          <ul class="attachments">
-            <li
-              class="attachment"
-              :key="attachment.id"
-              v-for="attachment in card.attachments"
-            >
-              <div
-                class="attachment-thumbnail"
-                :style="
-                  `background-image: url('${server.staticPath}${attachment.path}');`
-                "
-              ></div>
-              <p class="attachment-detail">
-                <span class="attachment-thumbnail-name">
-                  <strong>{{ attachment.detail.originName }}</strong>
-                </span>
-                <span class="attachment-thumbnail-descriptions">
-                  <span class="datetime">{{
-                    attachment.updatedAt | dateTime
-                  }}</span>
-                  <span> - </span>
-                  <u>删除</u>
-                </span>
-                <span class="attachment-thumbnail-operation">
-                  <i class="icon icon-card-cover"></i>
-                  <u>移除封面</u>
-                </span>
-              </p>
-            </li>
-          </ul>
-
+          <t-attachments
+            :attachments="card.attachments"
+            :cardId="card.id"
+          ></t-attachments>
           <div>
             <button class="btn btn-edit" @click="$refs.attachment.click()">
               添加附件
@@ -157,10 +134,12 @@
 </template>
 
 <script>
-import dateTime from '@/filters/dataTime'
+import TAttachments from '@/components/TAttachments'
 export default {
   name: 'Card',
-
+  components: {
+    TAttachments,
+  },
   computed: {
     list() {
       return this.$store.getters['boardList/getBoardList'](
@@ -172,17 +151,15 @@ export default {
     },
 
     server() {
-      console.log(
-        this.$store.state.server,
-        process.env.VUE_APP_SERVER_STATIC_PATH,
-      )
       return this.$store.state.server
     },
   },
-  filters: {
-    dateTime,
-  },
   methods: {
+    hiddleCard(e) {
+      if (!e.path.includes(this.$refs.popup)) {
+        this.$router.back()
+      }
+    },
     saveName(e) {
       this.editNameOrDesc(e, 'name')
     },

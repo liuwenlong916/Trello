@@ -38,6 +38,20 @@ export default {
         return card
       })
     },
+
+    removeAttachment(state, { cardId, attachmentId }) {
+      state.cards = state.cards.map(card => {
+        if (card.id == cardId) {
+          return {
+            ...card,
+            attachments: card.attachments.filter(
+              item => item.id != attachmentId,
+            ),
+          }
+        }
+        return card
+      })
+    },
   },
   actions: {
     async getCards({ commit, state }, boardListId) {
@@ -54,8 +68,11 @@ export default {
     },
     async uploadAttachment({ commit }, data) {
       const res = await api.uploadAttachment(data)
-      console.log(res.data)
       commit('addAttachment', res.data)
+    },
+    async deleteAttachment({ commit }, data) {
+      const res = await api.deleteAttachment(data.attachmentId)
+      commit('removeAttachment', data)
     },
   },
 }

@@ -38,9 +38,11 @@
             ></k-button>
             <span class="signin-signup-separator">或者</span>
             <!-- <input type="button" class="btn" value="登录" /> -->
-            <router-link :to="{ name: 'Login' }" tag="button" class="btn"
+            <!-- <router-link :to="{ name: 'Login' }" tag="button" class="btn"
               >登录</router-link
-            >
+            > -->
+
+            <k-button value="登录" @click="$router.push({ name: 'Login' })" />
           </k-form-item>
         </k-form>
       </div>
