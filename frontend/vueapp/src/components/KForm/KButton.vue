@@ -1,11 +1,8 @@
 <template>
   <div>
-    <input
-      type="button"
-      :class="['btn', type == 'success' ? 'btn-success' : '']"
-      v-bind="$attrs"
-      v-on="$listeners"
-    />
+    <button :class="['btn', type == 'success' ? 'btn-success' : '']">
+      <span v-if="$slots.default"><slot></slot></span>
+    </button>
   </div>
 </template>
 

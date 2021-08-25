@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form>
+    <form v-on="$listeners">
       <slot></slot>
     </form>
   </div>
@@ -8,6 +8,7 @@
 
 <script>
 export default {
+  inheritAttrs: false,
   name: 'KForm',
   provide() {
     return {
@@ -32,6 +33,9 @@ export default {
         .then(() => cb(true))
         .catch(() => cb(false))
     },
+  },
+  mounted() {
+    console.log(this.$listeners)
   },
 }
 </script>

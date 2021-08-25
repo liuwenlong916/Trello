@@ -6,7 +6,13 @@
       <div class="account-form">
         <h1>登录到 Trello</h1>
         <!-- <form id="login-form" method="POST" @submit.prevent="loginSubmit"> -->
-        <k-form :model="user" :rules="rules" ref="loginForm">
+        <k-form
+          :model="user"
+          :rules="rules"
+          ref="loginForm"
+          @submit.prevent
+          @keyup.enter="loginSubmit"
+        >
           <k-form-item label="账号" prop="name">
             <k-input
               autofocus="autofocus"
@@ -22,19 +28,14 @@
             />
           </k-form-item>
           <k-form-item>
-            <k-button
-              type="success"
-              value="登陆"
-              @click="loginSubmit"
-            ></k-button>
+            <k-button type="success" @click="loginSubmit">登陆</k-button>
             <span class="signin-signup-separator">或者</span>
-            <!-- 回车会触发跳转 <router-link :to="{ name: 'Register' }" tag="button" class="btn">
+            <router-link :to="{ name: 'Register' }" tag="button" class="btn">
               注册
-            </router-link> -->
-            <k-button
-              value="注册"
-              @click="$router.push({ name: 'Register' })"
-            />
+            </router-link>
+            <!-- <k-button @click="$router.push({ name: 'Register' })"
+              >注册</k-button
+            > -->
           </k-form-item>
         </k-form>
       </div>
@@ -61,11 +62,6 @@ export default {
   },
   methods: {
     async loginSubmit() {
-      // if (this.user.name.trim() === '' || this.user.password.trim() === '') {
-      //   return this.$message('用户名或密码不能为空')
-      // }
-      // await this.$store.dispatch('user/login', { ...this.user })
-      // this.$router.push({ name: 'Home' })
       this.$refs['loginForm'].validator(async valid => {
         if (valid) {
           await this.$store.dispatch('user/login', { ...this.user })

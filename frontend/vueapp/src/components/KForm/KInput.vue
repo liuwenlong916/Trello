@@ -13,6 +13,7 @@
 <script>
 export default {
   name: 'KInput',
+  inheritAttrs: false,
   props: {
     value: {
       type: String,

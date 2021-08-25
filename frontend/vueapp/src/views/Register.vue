@@ -5,7 +5,13 @@
     <div class="section-wrapper">
       <div class="account-form">
         <h1>注册 Trello</h1>
-        <k-form :model="user" :rules="rules" ref="registerForm">
+        <k-form
+          :model="user"
+          :rules="rules"
+          ref="registerForm"
+          @submit.prevent
+          @keyup.enter="registerSubmit"
+        >
           <k-form-item label="账号" prop="name">
             <label>
               <k-input
@@ -31,18 +37,13 @@
           </k-form-item>
           <k-form-item>
             <!-- <input type="submit" class="btn btn-success" value="注册" /> -->
-            <k-button
-              type="success"
-              value="注册"
-              @click="registerSubmit"
-            ></k-button>
+            <k-button type="success" @click="registerSubmit">注册</k-button>
             <span class="signin-signup-separator">或者</span>
             <!-- <input type="button" class="btn" value="登录" /> -->
-            <!-- <router-link :to="{ name: 'Login' }" tag="button" class="btn"
+            <router-link :to="{ name: 'Login' }" tag="button" class="btn"
               >登录</router-link
-            > -->
-
-            <k-button value="登录" @click="$router.push({ name: 'Login' })" />
+            >
+            <!-- <k-button @click="$router.push({ name: 'Login' })">登陆</k-button> -->
           </k-form-item>
         </k-form>
       </div>
@@ -69,22 +70,12 @@ export default {
   },
   methods: {
     async registerSubmit() {
-      if (this.user.name.trim() === '' || this.user.password.trim() === '') {
-        return this.$message.error('用户名和密码不能为空')
-      }
-      if (this.user.password !== this.user.rePassword) {
-        return this.$message.error('两次密码不一致')
-      }
-      try {
-        await this.$store.dispatch('user/register', { ...this.user })
-        this.$router.push({ name: 'Login' })
-      } catch (e) {}
-      // this.$refs['registerForm'].validator(async valid => {
-      //   if (valid) {
-      //     await this.$store.dispatch('user/register', { ...this.user })
-      //     this.$router.push({ name: 'Login' })
-      //   }
-      // })
+      this.$refs['registerForm'].validator(async valid => {
+        if (valid) {
+          await this.$store.dispatch('user/register', { ...this.user })
+          this.$router.push({ name: 'Login' })
+        }
+      })
     },
   },
 }
