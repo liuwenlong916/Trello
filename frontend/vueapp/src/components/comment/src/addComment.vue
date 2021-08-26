@@ -25,18 +25,22 @@ export default {
     },
   },
   methods: {
-    addComment(e) {
+    async addComment(e) {
       const content = this.$refs.content.value
       if (content.trim() == '') {
         this.$message.info('请输入评论')
         this.$refs.content.focus()
         return
       }
-      this.$store.dispatch('comment/addComment', {
-        cardId: this.cardId,
-        content,
-      })
-      this.$message.success('添加成功')
+      try {
+        await this.$store.dispatch('comment/addComment', {
+          cardId: this.cardId,
+          content,
+        })
+        this.$emit('updateComments')
+        this.$refs.content.value = ''
+        this.$message.success('添加成功')
+      } catch (e) {}
     },
   },
   computed: {

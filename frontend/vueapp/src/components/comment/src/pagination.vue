@@ -23,6 +23,7 @@ export default {
   computed: {
     ...mapState('comment', {
       pages: state => state.pages,
+      page: state => state.page,
     }),
   },
 }

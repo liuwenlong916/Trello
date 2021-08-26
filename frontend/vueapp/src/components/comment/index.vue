@@ -8,8 +8,11 @@
         <h3>评论</h3>
       </div>
     </div>
-    <add-comment :cardId="cardId"></add-comment>
-    <comment-list :cardId="cardId"></comment-list>
+    <add-comment
+      :cardId="cardId"
+      @updateComments="updateComments"
+    ></add-comment>
+    <comment-list :cardId="cardId" ref="commentList"></comment-list>
     <pagination />
   </div>
 </template>
@@ -30,6 +33,16 @@ export default {
     cardId: {
       type: String,
       require: true,
+    },
+  },
+  computed: {
+    page() {
+      return this.$store.state.comment.page
+    },
+  },
+  methods: {
+    updateComments() {
+      this.$refs.commentList.getComments(this.page)
     },
   },
 }

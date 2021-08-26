@@ -11,7 +11,7 @@ export default {
     },
   },
   actions: {
-    async addComment(store, data) {
+    async addComment({ dispatch, state }, data) {
       const res = await api.addComment(data)
       return res.data
     },
