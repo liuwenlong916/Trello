@@ -1,6 +1,6 @@
 // import { login, register } from '@/api'
 
-import * as api from '@/api'
+import * as api from '@/api/user'
 
 export default {
   namespaced: true,

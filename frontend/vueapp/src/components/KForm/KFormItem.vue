@@ -14,7 +14,6 @@
 import Schema from 'async-validator'
 export default {
   name: 'KFormItem',
-  inheritAttrs: false,
   inject: ['form'],
   mounted() {
     this.$on('validate', () => {
