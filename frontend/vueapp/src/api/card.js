@@ -46,10 +46,24 @@ export const deleteAttachment = id => {
     url: `card/attachment/${id}`,
   })
 }
+export const removeCover = id => {
+  return axios({
+    method: 'put',
+    url: `card/attachment/removeCover/${id}`,
+  })
+}
+export const setCover = id => {
+  return axios({
+    method: 'put',
+    url: `card/attachment/setCover/${id}`,
+  })
+}
 export default {
   getCards,
   addCard,
   editCard,
   uploadAttachment,
   deleteAttachment,
+  setCover,
+  removeCover,
 }

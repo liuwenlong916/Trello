@@ -87,15 +87,16 @@ export default class CardController {
     })
 
     let modelList = list.map((card: CardModel) => {
-      let coverPath = ''
+      //前端动态生成coverPath
+      // let coverPath = ''
       let attachments = card.attachments.map(attachment => {
         const data = attachment.toJSON() as CardAttachmentModel & {
           path: string
         }
         data.path = configs.storage.prefix + data.detail.name
-        if (data.isCover) {
-          coverPath = data.path
-        }
+        // if (data.isCover) {
+        //   coverPath = data.path
+        // }
 
         return data
       })
@@ -110,7 +111,7 @@ export default class CardController {
         createdAt: card.createdAt,
         updatedAt: card.updatedAt,
         commentCount: card.comments.length,
-        coverPath,
+        // coverPath,
         attachments,
       }
     })
@@ -198,6 +199,34 @@ export default class CardController {
     await cardAttachment.destroy()
     //3.删除Attachment表
     await attachment.destroy()
+    ctx.status = 204
+    return
+  }
+  @Put('/attachment/setCover/:id(\\d+)')
+  public async setCover(@Ctx() ctx: Context, @Params('id') id: number) {
+    const model = await getCardAttachmentByPk(id, ctx.userInfo.id)
+
+    await CardAttachmentModel.update(
+      {
+        isCover: false,
+      },
+      {
+        where: {
+          boardListCardId: model.boardListCardId,
+        },
+      },
+    )
+
+    model.isCover = true
+    model.save()
+    ctx.status = 204
+    return
+  }
+  @Put('/attachment/removeCover/:id(\\d+)')
+  public async removeCover(@Ctx() ctx: Context, @Params('id') id: number) {
+    const model = await getCardAttachmentByPk(id, ctx.userInfo.id)
+    model.isCover = false
+    model.save()
     ctx.status = 204
     return
   }

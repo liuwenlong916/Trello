@@ -34,12 +34,14 @@
             </div>
             <div class="title-text">
               <h3>描述</h3>
-              <button class="btn btn-edit">编辑</button>
+              <button class="btn btn-edit" @click="$refs.desc.select()">
+                编辑
+              </button>
             </div>
           </div>
 
           <p class="description">
-            <textarea class="form-field-input" @blur="saveDesc">{{
+            <textarea class="form-field-input" @blur="saveDesc" ref="desc">{{
               card.description
             }}</textarea>
           </p>
@@ -148,10 +150,6 @@ export default {
     },
     card() {
       return this.$store.getters['card/getCard'](this.$route.params.cardId)
-    },
-
-    server() {
-      return this.$store.state.server
     },
   },
   methods: {

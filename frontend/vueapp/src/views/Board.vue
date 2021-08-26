@@ -55,6 +55,9 @@ export default {
         this.$route.params.id,
       )
     },
+    server() {
+      return his.$store.state.server
+    },
   },
   created() {
     if (!this.board) {

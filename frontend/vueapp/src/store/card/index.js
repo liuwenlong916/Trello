@@ -52,6 +52,38 @@ export default {
         return card
       })
     },
+    setCover(state, { cardId, attachmentId }) {
+      state.cards = state.cards.map(card => {
+        if (card.id == cardId) {
+          return {
+            ...card,
+            attachments: card.attachments.map(atta => {
+              return {
+                ...atta,
+                isCover: attachmentId == atta.id,
+              }
+            }),
+          }
+        }
+        return card
+      })
+    },
+    removeCover(state, { cardId, attachmentId }) {
+      state.cards = state.cards.map(card => {
+        if (card.id == cardId) {
+          return {
+            ...card,
+            attachments: attachments.map(atta => {
+              return {
+                ...atta,
+                isCover: false,
+              }
+            }),
+          }
+        }
+        return card
+      })
+    },
   },
   actions: {
     async getCards({ commit, state }, boardListId) {
@@ -73,6 +105,14 @@ export default {
     async deleteAttachment({ commit }, data) {
       const res = await api.deleteAttachment(data.attachmentId)
       commit('removeAttachment', data)
+    },
+    async removeCover({ commit }, data) {
+      const res = await api.removeCover(data.attachmentId)
+      commit('removeCover', { ...data, isCover: false })
+    },
+    async setCover({ commit }, data) {
+      const res = await api.setCover(data.attachmentId)
+      commit('setCover', { ...data, isCover: true })
     },
   },
 }

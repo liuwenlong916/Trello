@@ -7,9 +7,9 @@
     class="list-card"
   >
     <div
-      v-if="data.coverPath"
+      v-if="coverPath"
       class="list-card-cover"
-      :style="`background-image: url(${data.coverPath});`"
+      :style="`background-image: url(${coverPath});`"
     ></div>
     <div class="list-card-title">{{ data.name }}</div>
     <div class="list-card-badges">
@@ -38,6 +38,25 @@ export default {
     data: {
       type: Object,
       require: true,
+    },
+  },
+  computed: {
+    server() {
+      return this.$store.state.server
+    },
+    coverPath() {
+      console.log('coverPath')
+      let path = ''
+      this.data.attachments.forEach(attachment => {
+        if (attachment.isCover) {
+          console.log(attachment)
+          path = this.server.staticPath + attachment.path
+        }
+      })
+      return path
+    },
+    mounted() {
+      console.log(this.coverPath)
     },
   },
 }

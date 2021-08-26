@@ -23,7 +23,10 @@
           </span>
           <span class="attachment-thumbnail-operation">
             <i class="icon icon-card-cover"></i>
-            <u>移除封面</u>
+            <u v-if="attachment.isCover" @click="removeCover(attachment.id)"
+              >移除封面</u
+            >
+            <u v-else @click="setCover(attachment.id)">设为封面</u>
           </span>
         </p>
       </li>
@@ -59,6 +62,18 @@ export default {
       this.$store.dispatch('card/deleteAttachment', {
         attachmentId,
         cardId: this.cardId,
+      })
+    },
+    removeCover(attachmentId) {
+      this.$store.dispatch('card/removeCover', {
+        cardId: this.cardId,
+        attachmentId,
+      })
+    },
+    setCover(attachmentId) {
+      this.$store.dispatch('card/setCover', {
+        cardId: this.cardId,
+        attachmentId,
       })
     },
   },
