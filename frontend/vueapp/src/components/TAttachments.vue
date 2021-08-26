@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import dateTime from '@/filters/dataTime'
+import dateTime from '@/filters/dateTime'
 export default {
   name: 'TAttachments',
   props: {

@@ -18,7 +18,7 @@
       </div>
       <div class="badge" v-if="data.commentCount">
         <span class="icon icon-comment"></span>
-        <span class="text">{{ commentCount }}</span>
+        <span class="text">{{ data.commentCount }}</span>
       </div>
       <div
         class="badge"
@@ -45,7 +45,6 @@ export default {
       return this.$store.state.server
     },
     coverPath() {
-      console.log('coverPath')
       let path = ''
       this.data.attachments.forEach(attachment => {
         if (attachment.isCover) {
@@ -54,9 +53,6 @@ export default {
         }
       })
       return path
-    },
-    mounted() {
-      console.log(this.coverPath)
     },
   },
 }

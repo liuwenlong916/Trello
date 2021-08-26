@@ -58,6 +58,7 @@ export const setCover = id => {
     url: `card/attachment/setCover/${id}`,
   })
 }
+
 export default {
   getCards,
   addCard,
