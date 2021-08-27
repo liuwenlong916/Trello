@@ -15,7 +15,7 @@ import Schema from 'async-validator'
 import emitter from '@/mixins/emitter'
 export default {
   name: 'KFormItem',
-  componentName: 'KFromItem',
+  componentName: 'KFormItem',
   mixins: [emitter],
   inject: ['form'],
   mounted() {
