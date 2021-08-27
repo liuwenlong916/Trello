@@ -20,7 +20,7 @@ export default {
   // inject: ['cardId'],
   props: {
     cardId: {
-      type: String,
+      type: Number,
       require: true,
     },
   },

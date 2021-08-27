@@ -9,11 +9,15 @@ export default {
         ? cards.filter(card => card.boardListId == boardListId)
         : null
     },
-    getCard: ({ cards }) => id => cards.find(item => (item.id = id)),
+    getCard: ({ cards }) => id =>
+      Array.isArray(cards) ? cards.find(item => item.id == id) : null,
   },
   mutations: {
     //state不可以解构，
     updateCards(state, data) {
+      if (!state.cards) {
+        state.cards = []
+      }
       state.cards = [...state.cards, ...data]
     },
     addCard(state, data) {

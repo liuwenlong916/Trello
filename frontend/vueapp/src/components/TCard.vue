@@ -11,7 +11,7 @@
       class="list-card-cover"
       :style="`background-image: url(${coverPath});`"
     ></div>
-    <div class="list-card-title">{{ data.name }}</div>
+    <div class="list-card-title">{{ data.id + data.name }}</div>
     <div class="list-card-badges">
       <div class="badge" v-if="data.description">
         <span class="icon icon-description"></span>
@@ -40,18 +40,24 @@ export default {
       require: true,
     },
   },
+  watch: {
+    'data.id'(newValue, oldValue) {
+      console.log('watch', newValue, oldValue)
+    },
+  },
   computed: {
     server() {
       return this.$store.state.server
     },
     coverPath() {
       let path = ''
-      this.data.attachments.forEach(attachment => {
-        if (attachment.isCover) {
-          console.log(attachment)
-          path = this.server.staticPath + attachment.path
-        }
-      })
+      this.data.attachments &&
+        this.data.attachments.forEach(attachment => {
+          if (attachment.isCover) {
+            console.log(attachment)
+            path = this.server.staticPath + attachment.path
+          }
+        })
       return path
     },
   },

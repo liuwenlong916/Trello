@@ -32,7 +32,7 @@ export default {
   },
   props: {
     cardId: {
-      type: String | Number,
+      type: Number,
       require: true,
     },
   },

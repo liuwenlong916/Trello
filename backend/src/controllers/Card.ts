@@ -69,7 +69,7 @@ export default class CardController {
       where: {
         boardListId,
       },
-      order: [['order', 'desc']],
+      order: [['order', 'asc']],
       include: [
         {
           model: CommentModel,

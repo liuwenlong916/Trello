@@ -13,7 +13,7 @@
       @updateComments="updateComments"
     ></add-comment>
     <comment-list :cardId="cardId" ref="commentList"></comment-list>
-    <pagination />
+    <pagination :cardId="cardId" @updateComments="updateComments" />
   </div>
 </template>
 
@@ -31,7 +31,7 @@ export default {
   // inject: ['cardId'],
   props: {
     cardId: {
-      type: String,
+      type: Number,
       require: true,
     },
   },

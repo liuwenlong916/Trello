@@ -75,7 +75,7 @@
         </div>
 
         <!--活动-->
-        <comment :cardId="card.id" />
+        <comment :cardId="parseInt(card.id)" />
       </div>
     </div>
   </div>

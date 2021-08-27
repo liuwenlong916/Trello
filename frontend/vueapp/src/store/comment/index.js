@@ -4,10 +4,28 @@ export default {
   state: {
     page: 1,
     pages: 1,
+    // showPageCount: 5,
+  },
+  getters: {
+    showPages: ({ pages, page }) => {
+      const arr = [page]
+      let start = page
+      let end = page
+      while (arr.length < 5) {
+        if (start <= 1 && end >= pages) break
+        if (start > 1) arr.unshift(--start)
+        if (end < pages) arr.push(++end)
+      }
+      return arr
+    },
   },
   mutations: {
-    initPages(state, pages) {
+    initPages(state, { pages, page }) {
       state.pages = pages
+      state.page = page
+    },
+    updatePage(state, page) {
+      state.page = page
     },
   },
   actions: {
@@ -17,7 +35,7 @@ export default {
     },
     async getComments({ commit }, data) {
       const res = await api.getComments(data)
-      commit('initPages', res.data.pages)
+      commit('initPages', res.data)
       return res.data.commentList
     },
   },

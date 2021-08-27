@@ -91,7 +91,6 @@ export default {
       return this.$store.getters['card/getCards'](this.data.id)
     },
   },
-
   methods: {
     dragDown(e) {
       document.addEventListener('mousemove', this.dragMove)
