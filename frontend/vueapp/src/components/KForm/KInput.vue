@@ -11,9 +11,11 @@
 </template>
 
 <script>
+import emitter from '@/mixins/emitter'
 export default {
   name: 'KInput',
   inheritAttrs: false,
+  mixins: [emitter],
   props: {
     value: {
       type: String,
@@ -29,7 +31,9 @@ export default {
     onInput(e) {
       this.$emit('input', e.target.value)
       //TODO解耦
-      this.$parent.$emit('validate')
+      // this.$parent.$emit('validate')
+      //elementUI 源码实现parent解耦
+      this.dispatch('KFormItem', 'validate')
     },
   },
 }

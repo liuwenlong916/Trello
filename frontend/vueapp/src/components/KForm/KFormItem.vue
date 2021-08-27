@@ -12,13 +12,22 @@
 
 <script>
 import Schema from 'async-validator'
+import emitter from '@/mixins/emitter'
 export default {
   name: 'KFormItem',
+  componentName: 'KFromItem',
+  mixins: [emitter],
   inject: ['form'],
   mounted() {
     this.$on('validate', () => {
       this.validate()
     })
+    if (this.prop) {
+      this.dispatch('KForm', 'el.form.addItem', [this])
+    }
+  },
+  beforeDestroy() {
+    this.dispatch('KForm', 'el.form.removeItem', [this])
   },
   props: {
     label: {
